@@ -8,26 +8,30 @@
    ========================================================================== */
 
 :root {
-  /* Color Palette - Sophisticated Deep Ocean & Warm Sunset */
-  --color-deep-blue: #0f172a;
-  --color-ocean-blue: #1e293b;
-  --color-slate-blue: #334155;
-  --color-sky-blue: #0ea5e9;
-  --color-warm-orange: #f59e0b;
+  /* Color Palette - Authentic Italian Mediterranean */
+  --color-terracotta: #c65d07;           /* Rich Italian terracotta */
+  --color-terracotta-light: #e07b39;     /* Lighter terracotta */
+  --color-olive-green: #6a7c3a;          /* Italian olive green */
+  --color-olive-dark: #546330;           /* Darker olive */
+  --color-tuscan-gold: #d4af37;          /* Tuscan gold */
+  --color-venetian-red: #c8102e;         /* Venetian red */
+  --color-mediterranean-blue: #0077be;    /* Mediterranean blue */
+  --color-cream: #faf6f2;                /* Italian cream */
+  --color-sage: #9caf88;                 /* Sage green */
   
-  /* Semantic Color System - Light Theme */
-  --color-primary: var(--color-sky-blue);
-  --color-primary-light: #38bdf8;
-  --color-primary-dark: var(--color-ocean-blue);
-  --color-secondary: var(--color-warm-orange);
-  --color-accent: #6366f1;
+  /* Semantic Color System - Italian Theme */
+  --color-primary: var(--color-terracotta);
+  --color-primary-light: var(--color-terracotta-light);
+  --color-primary-dark: var(--color-olive-dark);
+  --color-secondary: var(--color-tuscan-gold);
+  --color-accent: var(--color-venetian-red);
   
   /* Background Colors */
-  --color-background: #ffffff;
-  --color-background-soft: #f8fafc;
+  --color-background: var(--color-cream);
+  --color-background-soft: #f5f0e8;
   --color-surface: #ffffff;
   --color-surface-raised: #ffffff;
-  --color-overlay: rgba(255, 255, 255, 0.95);
+  --color-overlay: rgba(250, 246, 242, 0.95);
   
   /* Text Colors */
   --color-text-primary: #1a1a1a;
@@ -46,11 +50,12 @@
   --color-error: #f56565;
   --color-info: var(--color-primary-light);
   
-  /* Gradient Definitions */
-  --gradient-primary: linear-gradient(135deg, var(--color-sky-blue) 0%, var(--color-primary-light) 50%, var(--color-accent) 100%);
-  --gradient-secondary: linear-gradient(135deg, var(--color-accent) 0%, var(--color-warm-orange) 100%);
-  --gradient-hero: linear-gradient(135deg, var(--color-deep-blue) 0%, var(--color-ocean-blue) 25%, var(--color-sky-blue) 75%, var(--color-primary-light) 100%);
+  /* Gradient Definitions - Italian Inspired */
+  --gradient-primary: linear-gradient(135deg, var(--color-terracotta) 0%, var(--color-terracotta-light) 50%, var(--color-tuscan-gold) 100%);
+  --gradient-secondary: linear-gradient(135deg, var(--color-venetian-red) 0%, var(--color-tuscan-gold) 100%);
+  --gradient-hero: linear-gradient(135deg, var(--color-olive-dark) 0%, var(--color-olive-green) 25%, var(--color-terracotta) 50%, var(--color-terracotta-light) 75%, var(--color-tuscan-gold) 100%);
   --gradient-subtle: linear-gradient(135deg, var(--color-background-soft) 0%, var(--color-surface) 100%);
+  --gradient-tuscan-sunset: linear-gradient(135deg, var(--color-terracotta) 0%, var(--color-venetian-red) 50%, var(--color-tuscan-gold) 100%);
   
   /* Typography Scale */
   --font-family-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -121,34 +126,34 @@
   --z-tooltip: 1070;
 }
 
-/* Dark Theme Variables */
+/* Dark Theme Variables - Italian Night */
 [data-theme="dark"] {
-  /* Dark Theme Color Overrides */
-  --color-background: #0a0f14;
-  --color-background-soft: #111920;
-  --color-surface: #1a2332;
-  --color-surface-raised: #243447;
-  --color-overlay: rgba(26, 35, 50, 0.95);
+  /* Dark Theme Color Overrides - Inspired by Italian nights */
+  --color-background: #1a1612;              /* Dark olive brown */
+  --color-background-soft: #252117;         /* Darker warm brown */
+  --color-surface: #2f2a1f;                 /* Rich dark brown */
+  --color-surface-raised: #3a342a;          /* Elevated brown */
+  --color-overlay: rgba(26, 22, 18, 0.95);
   
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #b8c5d6;
-  --color-text-muted: #8a99ac;
-  --color-text-inverse: #1a1a1a;
+  --color-text-primary: #faf6f2;            /* Cream text */
+  --color-text-secondary: #d4c4a8;          /* Warm beige */
+  --color-text-muted: #a89983;              /* Muted warm */
+  --color-text-inverse: #1a1612;
   
-  --color-border: #2d3748;
-  --color-border-light: #374151;
-  --color-divider: #374151;
+  --color-border: #4a4035;                  /* Dark warm border */
+  --color-border-light: #5a5045;            /* Lighter warm border */
+  --color-divider: #4a4035;
   
-  /* Enhanced gradients for dark theme */
-  --gradient-hero: linear-gradient(135deg, #0a0f14 0%, var(--color-deep-blue) 25%, var(--color-ocean-blue) 50%, var(--color-sky-blue) 75%, var(--color-primary-light) 100%);
+  /* Enhanced gradients for dark theme - Italian night sky */
+  --gradient-hero: linear-gradient(135deg, #1a1612 0%, var(--color-olive-dark) 25%, var(--color-terracotta) 50%, var(--color-terracotta-light) 75%, var(--color-tuscan-gold) 100%);
   --gradient-subtle: linear-gradient(135deg, var(--color-background-soft) 0%, var(--color-surface) 100%);
   
   /* Adjusted shadows for dark theme */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
 }
 
 /* ==========================================================================
@@ -593,11 +598,12 @@ b {
 }
 
 .hero__name {
-  background: linear-gradient(135deg, var(--color-warm-orange) 0%, var(--color-accent) 100%);
+  background: var(--gradient-tuscan-sunset);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
+  position: relative;
 }
 
 .hero__subtitle {

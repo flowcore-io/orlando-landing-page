@@ -1,0 +1,579 @@
+/**
+ * Orlando Studio - Main Stylesheet
+ * Contains ALL base styles, CSS variables, resets, and global utilities
+ * Following Orlando's official CSS organization standards
+ * 
+ * This file must be loaded FIRST before any component-specific CSS
+ */
+
+/* ============================================
+   CSS VARIABLES & DESIGN TOKENS
+   Following Orlando variable naming standard:
+   - Colors: --color-{name}
+   - Spacing: --space-{size}
+   - Font weights: --font-{weight} (NO -weight- suffix)
+   - Shadows: --shadow-{size}
+   - Transitions: --transition-{speed}
+   ============================================ */
+
+:root {
+  /* ============================================
+     ORLANDO STUDIO - DARK ITALIAN RENAISSANCE PALETTE
+     Moody, artistic, sophisticated dark theme
+     Painterly lemon grove aesthetic
+     ============================================ */
+  
+  /* Primary Colors - Dark Italian Artisan */
+  --color-primary: #d4af37;              /* Warm gold accent */
+  --color-tomato: #e76f51;               /* Warm tomato red-orange */
+  --color-teal: #2a9d8f;                 /* Mediterranean teal */
+  --color-olive: #6b7c59;                /* Olive green */
+  
+  /* Primary Opacity Variants - Gold/Primary (212, 175, 55) */
+  --color-primary-03: rgba(212, 175, 55, 0.03);
+  --color-primary-05: rgba(212, 175, 55, 0.05);
+  --color-primary-08: rgba(212, 175, 55, 0.08);
+  --color-primary-10: rgba(212, 175, 55, 0.1);
+  --color-primary-15: rgba(212, 175, 55, 0.15);
+  --color-primary-20: rgba(212, 175, 55, 0.2);
+  --color-primary-30: rgba(212, 175, 55, 0.3);
+  --color-primary-40: rgba(212, 175, 55, 0.4);
+  --color-primary-50: rgba(212, 175, 55, 0.5);
+  --color-primary-60: rgba(212, 175, 55, 0.6);
+  --color-primary-95: rgba(212, 175, 55, 0.95);
+  
+  /* Tomato Opacity Variants (231, 111, 81) */
+  --color-tomato-03: rgba(231, 111, 81, 0.03);
+  --color-tomato-05: rgba(231, 111, 81, 0.05);
+  --color-tomato-08: rgba(231, 111, 81, 0.08);
+  --color-tomato-10: rgba(231, 111, 81, 0.1);
+  --color-tomato-15: rgba(231, 111, 81, 0.15);
+  --color-tomato-20: rgba(231, 111, 81, 0.2);
+  --color-tomato-30: rgba(231, 111, 81, 0.3);
+  --color-tomato-40: rgba(231, 111, 81, 0.4);
+  --color-tomato-50: rgba(231, 111, 81, 0.5);
+  --color-tomato-60: rgba(231, 111, 81, 0.6);
+  --color-tomato-95: rgba(231, 111, 81, 0.95);
+  
+  /* Teal Opacity Variants (42, 157, 143) */
+  --color-teal-03: rgba(42, 157, 143, 0.03);
+  --color-teal-05: rgba(42, 157, 143, 0.05);
+  --color-teal-08: rgba(42, 157, 143, 0.08);
+  --color-teal-10: rgba(42, 157, 143, 0.1);
+  --color-teal-15: rgba(42, 157, 143, 0.15);
+  --color-teal-20: rgba(42, 157, 143, 0.2);
+  --color-teal-30: rgba(42, 157, 143, 0.3);
+  --color-teal-40: rgba(42, 157, 143, 0.4);
+  --color-teal-50: rgba(42, 157, 143, 0.5);
+  --color-teal-60: rgba(42, 157, 143, 0.6);
+  --color-teal-95: rgba(42, 157, 143, 0.95);
+  
+  /* Olive Opacity Variants (107, 124, 89) */
+  --color-olive-03: rgba(107, 124, 89, 0.03);
+  --color-olive-05: rgba(107, 124, 89, 0.05);
+  --color-olive-08: rgba(107, 124, 89, 0.08);
+  --color-olive-10: rgba(107, 124, 89, 0.1);
+  --color-olive-15: rgba(107, 124, 89, 0.15);
+  --color-olive-20: rgba(107, 124, 89, 0.2);
+  --color-olive-30: rgba(107, 124, 89, 0.3);
+  --color-olive-40: rgba(107, 124, 89, 0.4);
+  --color-olive-50: rgba(107, 124, 89, 0.5);
+  --color-olive-60: rgba(107, 124, 89, 0.6);
+  --color-olive-95: rgba(107, 124, 89, 0.95);
+  
+  /* Semantic Color Mapping */
+  --color-accent: var(--color-primary);
+  --color-cta: var(--color-primary);
+  --color-link: var(--color-teal);
+  
+  /* Dark Neutral Palette */
+  --color-background: #1a1d1f;           /* Deep charcoal - almost black */
+  --color-surface: #242729;              /* Elevated surface */
+  --color-surface-light: #2d3235;        /* Light surface */
+  --color-muted: #383c3f;                /* Muted element */
+  
+  /* Background Opacity Variants (26, 29, 31) */
+  --color-background-70: rgba(26, 29, 31, 0.7);
+  --color-background-80: rgba(26, 29, 31, 0.8);
+  --color-background-95: rgba(26, 29, 31, 0.95);
+  
+  /* Surface Opacity Variants (36, 39, 41) */
+  --color-surface-80: rgba(36, 39, 41, 0.8);
+  --color-surface-90: rgba(36, 39, 41, 0.9);
+  --color-surface-95: rgba(36, 39, 41, 0.95);
+  
+  /* Surface Light Opacity Variants (45, 50, 53) */
+  --color-surface-light-80: rgba(45, 50, 53, 0.8);
+  --color-surface-light-100: rgba(45, 50, 53, 1);
+  
+  /* Border Colors - Using Olive and Tomato variants */
+  --color-border: var(--color-olive-15);
+  --color-border-subtle: var(--color-olive-08);
+  --color-border-tomato: var(--color-tomato-20);
+  
+  /* Text Colors - Light on dark */
+  --color-text-primary: #f5f5f5;         /* Bright white text */
+  --color-text-secondary: #b8b8b8;       /* Medium gray */
+  --color-text-muted: #8a8a8a;           /* Muted gray */
+  --color-text-on-dark: #f5f5f5;         /* White on dark */
+  --color-text-on-accent: #1a1d1f;       /* Dark on bright accent */
+  
+  /* Semantic Colors */
+  --color-success: var(--color-teal);
+  --color-error: var(--color-tomato);
+  
+  /* Black/Shadow Opacity Variants */
+  --black-04: rgba(0, 0, 0, 0.04);
+  --black-06: rgba(0, 0, 0, 0.06);
+  --black-08: rgba(0, 0, 0, 0.08);
+  --black-10: rgba(0, 0, 0, 0.1);
+  --black-12: rgba(0, 0, 0, 0.12);
+  --black-30: rgba(0, 0, 0, 0.3);
+  --black-35: rgba(0, 0, 0, 0.35);
+  --black-40: rgba(0, 0, 0, 0.4);
+  --black-50: rgba(0, 0, 0, 0.5);
+  --black-65: rgba(0, 0, 0, 0.65);
+  
+  /* Radial Gradient - Overlay Effect */
+  --gradient-radial-overlay: radial-gradient(circle at center, 
+    transparent 0%, 
+    var(--black-35) 60%, 
+    var(--black-65) 100%);
+  
+  /* Text Shadow Presets */
+  --text-shadow-sm: 0 1px 4px var(--black-40);
+  --text-shadow-md: 0 2px 8px var(--black-50), 0 4px 16px var(--black-30);
+  --text-shadow-lg: 0 2px 12px var(--black-50), 0 4px 24px var(--black-30);
+  
+  /* ============================================
+     TYPOGRAPHY SYSTEM
+     Using fluid sizing with clamp() for responsiveness
+     Orlando standard: NO -weight- suffix on font variables
+     ============================================ */
+  
+  --font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* Fluid Typography Scale - Mobile to Desktop */
+  --font-size-display: clamp(2.5rem, 5vw, 4rem);      /* 40px → 64px */
+  --font-size-h1: clamp(2rem, 4vw, 3rem);             /* 32px → 48px */
+  --font-size-h2: clamp(1.5rem, 3vw, 2rem);           /* 24px → 32px */
+  --font-size-h3: clamp(1.25rem, 2vw, 1.5rem);        /* 20px → 24px */
+  --font-size-body: clamp(1rem, 1.5vw, 1.125rem);     /* 16px → 18px */
+  --font-size-small: clamp(0.875rem, 1vw, 1rem);      /* 14px → 16px */
+  --font-size-tiny: clamp(0.813rem, 0.9vw, 0.875rem); /* 13px → 14px */
+  
+  /* Font Weights - Orlando Standard (no -weight- suffix) */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;  /* Headers */
+  --font-bold: 700;      /* Emphasis */
+  
+  /* Line Heights - Readability */
+  --line-height-tight: 1.15;    /* Headlines */
+  --line-height-snug: 1.375;    /* Subheadings */
+  --line-height-normal: 1.5;    /* UI elements */
+  --line-height-relaxed: 1.7;   /* Body text */
+  
+  /* Letter Spacing - Uppercase & Emphasis */
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.03em;   /* Uppercase text */
+  --letter-spacing-wider: 0.05em;  /* Emphasized uppercase */
+  
+  /* ============================================
+     SPACING SYSTEM
+     Consistent spacing scale
+     ============================================ */
+  
+  --space-xs: 0.5rem;    /* 8px */
+  --space-sm: 0.75rem;   /* 12px */
+  --space-md: 1rem;      /* 16px */
+  --space-lg: 1.5rem;    /* 24px */
+  --space-xl: 2rem;      /* 32px */
+  --space-2xl: 3rem;     /* 48px */
+  --space-3xl: 5rem;     /* 80px */
+  --space-4xl: 8rem;     /* 128px */
+  --space-5xl: 12rem;    /* 192px */
+  
+  /* ============================================
+     BORDER RADIUS
+     Consistent rounded corners
+     ============================================ */
+  
+  --radius-sm: 0.5rem;   /* 8px */
+  --radius: 1rem;        /* 16px */
+  --radius-lg: 1.5rem;   /* 24px */
+  --radius-xl: 2rem;     /* 32px */
+  --radius-full: 9999px; /* Fully rounded */
+  
+  /* ============================================
+     SHADOWS
+     Subtle elevation system - Using black opacity variants
+     ============================================ */
+  
+  --shadow-sm: 0 1px 2px var(--black-04);
+  --shadow: 0 2px 8px var(--black-06);
+  --shadow-md: 0 4px 16px var(--black-08);
+  --shadow-lg: 0 8px 24px var(--black-10);
+  --shadow-xl: 0 16px 48px var(--black-12);
+  --shadow-2xl: 0 32px 64px var(--black-12);
+  --shadow-card: 0 4px 16px var(--black-30);
+  --shadow-hero: 0 8px 32px var(--black-50);
+  
+  /* ============================================
+     TRANSITIONS
+     Smooth, professional animations (200-300ms)
+     ============================================ */
+  
+  --transition-fast: 200ms ease-out;
+  --transition-normal: 250ms ease-out;
+  --transition-slow: 350ms ease-out;
+  
+  /* ============================================
+     CONTAINER WIDTHS
+     ============================================ */
+  
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-max: 1440px;
+  
+  /* ============================================
+     Z-INDEX LAYERS
+     ============================================ */
+  
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+}
+
+/* ============================================
+   RESET & BASE STYLES
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-normal);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+/* Painterly Italian lemon grove pattern - dark artistic background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background-image: url('../public/images/tileable lemon and tomato painting pattern.png');
+  background-repeat: repeat;
+  background-size: 1400px 1400px;
+  background-position: 0 0;
+  opacity: 0.4;
+}
+
+/* ============================================
+   TYPOGRAPHY - Professional Hierarchy
+   Font weights: 600-700 for headers, 400-500 for body
+   Line height: 1.15 for headlines, 1.7 for body
+   ============================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--font-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-lg);
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+}
+
+h3 {
+  font-size: var(--font-size-h3);
+}
+
+p {
+  margin-bottom: var(--space-lg);
+  line-height: var(--line-height-relaxed);
+}
+
+/* Links - Default styling */
+a {
+  color: var(--color-link);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+/* Orlando Standard: Component-specific focus handling
+   Remove default browser outlines - each component handles focus intentionally */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+/* ============================================
+   GLOBAL UTILITY CLASSES
+   ============================================ */
+
+/* Container - Consistent max-width wrapper */
+.container {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-xl);
+  padding-right: var(--space-xl);
+}
+
+/* Spacing Utilities - Margin Bottom */
+.mb-xs { margin-bottom: var(--space-xs); }
+.mb-sm { margin-bottom: var(--space-sm); }
+.mb-md { margin-bottom: var(--space-md); }
+.mb-lg { margin-bottom: var(--space-lg); }
+.mb-xl { margin-bottom: var(--space-xl); }
+.mb-2xl { margin-bottom: var(--space-2xl); }
+
+/* Spacing Utilities - Margin Top */
+.mt-xs { margin-top: var(--space-xs); }
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mt-lg { margin-top: var(--space-lg); }
+.mt-xl { margin-top: var(--space-xl); }
+.mt-2xl { margin-top: var(--space-2xl); }
+
+/* Text Alignment */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+/* ============================================
+   GRID SYSTEM - Responsive Layout Control
+   Following Orlando's layout optimization standards
+   ============================================ */
+
+/* Base Grid - 4 columns desktop */
+.grid {
+  display: grid;
+  gap: var(--space-xl);
+  width: 100%;
+}
+
+/* Grid Column Variants */
+.grid--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid--4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Responsive Grid Breakdowns */
+@media (max-width: 1024px) {
+  .grid--4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid--3,
+  .grid--4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .grid {
+    gap: var(--space-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .grid--2,
+  .grid--3,
+  .grid--4 {
+    grid-template-columns: 1fr;
+  }
+  
+  .grid {
+    gap: var(--space-md);
+  }
+}
+
+/* Visually Hidden - Hide element visually but keep accessible to screen readers */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip to Content Link - WCAG 2.4.1 Bypass Blocks */
+.skip-to-content {
+  position: absolute;
+  left: -9999px;
+  z-index: 1000;
+  padding: var(--space-md) var(--space-xl);
+  background: var(--color-primary);
+  color: white;
+  text-decoration: none;
+  font-weight: var(--font-semibold);
+  border-radius: var(--radius);
+}
+
+.skip-to-content:focus {
+  left: 50%;
+  top: var(--space-lg);
+  transform: translateX(-50%);
+  outline: 3px solid var(--color-text-primary);
+  outline-offset: 3px;
+}
+
+/* ============================================
+   SECTION STRUCTURE
+   Default padding for page sections
+   ============================================ */
+
+section {
+  padding: var(--space-4xl) 0;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN BREAKPOINTS
+   Following Orlando's documented standards
+   ============================================ */
+
+/* Mobile: Reduce padding */
+@media (max-width: 768px) {
+  section {
+    padding: var(--space-3xl) 0;
+  }
+  
+  .container {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
+}
+
+/* Small mobile: Extra tight spacing */
+@media (max-width: 480px) {
+  section {
+    padding: var(--space-2xl) 0;
+  }
+}
+
+/* Tablet: 768px-1024px */
+@media (min-width: 768px) {
+  .container {
+    padding-left: var(--space-xl);
+    padding-right: var(--space-xl);
+  }
+}
+
+/* Desktop and up: Comfortable spacing */
+@media (min-width: 1024px) {
+  .container {
+    padding-left: var(--space-2xl);
+    padding-right: var(--space-2xl);
+  }
+}
+
+/* Desktop: 1024px-1440px */
+@media (min-width: 1024px) {
+  section {
+    padding: var(--space-5xl) 0;
+  }
+}
+
+/* Large monitors: 1440px-1920px */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1100px; /* Narrower for better readability on large screens */
+  }
+}
+
+/* Ultra-wide: 1920px+ */
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1000px; /* Even narrower - prevents excessive line length */
+  }
+}
+
+/* ============================================
+   ANIMATIONS
+   Simple, professional entrance effects
+   Duration: 200-400ms for UI (per Orlando standards)
+   ============================================ */
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(30px, -30px) scale(1.05);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

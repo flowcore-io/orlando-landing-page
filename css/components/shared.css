@@ -1,0 +1,305 @@
+/**
+ * Orlando Studio - Shared Components
+ * Reusable components used across multiple sections
+ * BEM: badge, btn, card, input-group, form-success, grid, progress, link-with-icon
+ */
+
+/* ============================================
+   BADGE COMPONENT
+   Usage: Status indicators, labels
+   ============================================ */
+
+.badge {
+  display: inline-block;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  transition: all var(--transition-normal);
+}
+
+.badge--primary {
+  background: var(--color-olive-15);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-olive-30);
+  backdrop-filter: blur(10px);
+  text-shadow: var(--text-shadow-sm);
+}
+
+/* Orlando Standard: No hover on non-clickable badges
+   Badges are informational, not interactive elements */
+
+/* ============================================
+   BUTTON COMPONENT
+   Usage: CTAs, form submissions
+   Touch targets: Minimum 44×44px (WCAG 2.5.5)
+   Focus: Component-specific handling
+   ============================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md) var(--space-2xl);
+  min-height: 48px;
+  border-radius: var(--radius);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-medium);
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all var(--transition-normal), transform var(--transition-fast);
+  text-decoration: none;
+  -webkit-tap-highlight-color: var(--color-primary-20);
+  touch-action: manipulation;
+}
+
+.btn:focus {
+  box-shadow: 0 0 0 3px var(--color-tomato-40);
+}
+
+.btn--primary {
+  background: var(--color-primary);
+  color: var(--color-text-on-accent);
+  border-color: transparent;
+}
+
+.btn--primary:hover {
+  background: var(--color-teal);
+  border-color: transparent;
+  color: var(--color-text-primary);
+}
+
+.btn--primary:focus {
+  box-shadow: 0 0 0 3px var(--color-tomato-40), var(--shadow-lg);
+}
+
+.btn--secondary {
+  background: var(--color-surface-80);
+  color: var(--color-text-primary);
+  border-color: var(--color-tomato-30);
+  backdrop-filter: blur(10px);
+}
+
+.btn--secondary:hover {
+  background: var(--color-surface-95);
+  border-color: var(--color-tomato-50);
+  box-shadow: var(--shadow);
+}
+
+.btn--secondary:focus-visible {
+  box-shadow: 0 0 0 3px var(--color-olive-30);
+}
+
+/* ============================================
+   CARD COMPONENT
+   Usage: Content containers, feature cards
+   Hover: Subtle lift effect (Orlando standard)
+   ============================================ */
+
+.card {
+  background: var(--color-surface-95);
+  border: 1px solid var(--color-tomato-20);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl);
+  transition: all var(--transition-normal);
+  height: 100%;
+  backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-card);
+}
+
+/* Orlando Standard: No hover on non-clickable cards
+   These are informational display cards, not interactive elements
+   Only links/buttons inside cards should have hover effects */
+
+.card__title {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-semibold);
+  margin-bottom: var(--space-md);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-snug);
+}
+
+.card__description {
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: 0;
+  font-size: var(--font-size-body);
+}
+
+/* Card Modifier - Dashed border style for placeholders */
+.card--dashed {
+  border-style: dashed;
+  border-width: 1px;
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 500px;
+  padding: var(--space-4xl) var(--space-2xl);
+}
+
+.card--dashed .card__title {
+  font-size: clamp(1.5rem, 2.5vw, 1.75rem);
+  margin-bottom: var(--space-lg);
+}
+
+.card--dashed .card__description {
+  max-width: 600px;
+  margin-bottom: var(--space-xl);
+}
+
+.card__quote {
+  font-style: italic;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-body);
+  margin-top: var(--space-lg);
+}
+
+/* ============================================
+   INPUT GROUP COMPONENT
+   Usage: Form fields with labels
+   Focus: Visible focus ring
+   ============================================ */
+
+.input-group {
+  margin-bottom: var(--space-lg);
+}
+
+.input-group__label {
+  display: block;
+  margin-bottom: var(--space-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+}
+
+.input-group__field {
+  width: 100%;
+  padding: var(--space-md) var(--space-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: var(--font-size-body);
+  font-family: var(--font-family-base);
+  transition: border-color var(--transition-fast);
+  background: var(--color-surface-light);
+  color: var(--color-text-primary);
+}
+
+.input-group__field:focus {
+  border-color: var(--color-tomato);
+  box-shadow: 0 0 0 3px var(--color-tomato-20);
+}
+
+.input-group__field::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* ============================================
+   FORM SUCCESS MESSAGE COMPONENT
+   ============================================ */
+
+.form-success {
+  padding: var(--space-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-success);
+  border-radius: var(--radius);
+  color: var(--color-success);
+  font-weight: var(--font-medium);
+  animation: fadeIn 400ms ease-out;
+  display: none;
+}
+
+.form-success.show {
+  display: block;
+}
+
+/* ============================================
+   GRID SYSTEM
+   Usage: Layout for feature cards, content grids
+   ============================================ */
+
+.grid {
+  display: grid;
+  gap: var(--space-2xl);
+}
+
+.grid--2 {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.grid--3 {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.grid--4 {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+@media (max-width: 768px) {
+  .grid {
+    gap: var(--space-lg);
+  }
+  
+  .grid--2,
+  .grid--3,
+  .grid--4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   PROGRESS BAR COMPONENT
+   Usage: Loading states, carousel indicators
+   ============================================ */
+
+.progress {
+  width: 100%;
+  height: 4px;
+  background: var(--color-muted);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress__fill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-slow);
+}
+
+/* ============================================
+   LINK WITH ICON COMPONENT
+   Usage: External links, navigation
+   ============================================ */
+
+.link-with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--color-link);
+  font-weight: var(--font-medium);
+  transition: color var(--transition-fast);
+}
+
+.link-with-icon:hover {
+  color: var(--color-primary);
+}
+
+/* Orlando Standard: Use box-shadow for focus, not outline */
+.link-with-icon:focus {
+  box-shadow: 0 0 0 3px var(--color-tomato-30);
+  border-radius: var(--radius-sm);
+}
+
+.link-with-icon span {
+  transition: transform var(--transition-fast);
+}
+
+.link-with-icon:hover span {
+  transform: translateX(4px);
+}

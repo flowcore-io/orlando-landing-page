@@ -1,0 +1,32 @@
+/**
+ * Orlando Studio - Demo Section Component
+ * Interactive demo placeholder
+ * BEM: demo, demo__heading, demo__placeholder
+ */
+
+.demo {
+  background: var(--color-background-70);
+  backdrop-filter: blur(10px);
+}
+
+.demo__heading {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto var(--space-4xl);
+}
+
+.demo__title {
+  font-size: var(--font-size-h1);
+  margin-bottom: var(--space-lg);
+}
+
+.demo__subtitle {
+  font-size: var(--font-size-h3);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-normal);
+}
+
+.demo__placeholder {
+  max-width: 1000px;
+  margin: 0 auto;
+}

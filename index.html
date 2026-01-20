@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Orlando Studio - Professional landing pages with Italian design sensibility. AI-powered design tool coming soon.">
+  <meta name="keywords" content="landing page, web design, AI design, Orlando Studio, Usable">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://orlando.studio/">
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:title" content="Orlando Studio - Professional Landing Pages">
+  <meta property="og:description" content="AI-powered landing page design with professional results and personal touch.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://orlando.studio/">
+  <!-- TODO: Add og:image when brand assets are created -->
+  
+  <title>Orlando Studio - Professional Landing Pages</title>
+  
+  <!-- Preconnect to external domains for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets - Orlando Standard: Load main.css first, then components -->
+  <!-- Main: Contains ALL variables, base styles, and utilities -->
+  <link rel="stylesheet" href="css/main.css">
+  
+  <!-- Component-specific styles: Load only what this page needs -->
+  <link rel="stylesheet" href="css/components/shared.css">
+  <link rel="stylesheet" href="css/components/navbar.css">
+  <link rel="stylesheet" href="css/components/hero.css">
+  <link rel="stylesheet" href="css/components/features.css">
+  <link rel="stylesheet" href="css/components/showcase.css">
+  <link rel="stylesheet" href="css/components/demo.css">
+  <link rel="stylesheet" href="css/components/cta.css">
+  <link rel="stylesheet" href="css/components/footer.css">
+  
+  <!-- Structured Data - Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Orlando Studio",
+    "url": "https://orlando.studio/",
+    "description": "AI-powered landing page design with professional results and personal touch",
+    "foundingDate": "2025",
+    "founders": [{
+      "@type": "Person",
+      "name": "Orlando"
+    }],
+    "sameAs": [
+      "https://usable.dev"
+    ]
+  }
+  </script>
+  
+  <!-- Additional Structured Data - Software Application -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Orlando Studio",
+    "applicationCategory": "DesignApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "operatingSystem": "Web Browser",
+    "description": "AI-powered landing page design tool that creates professional websites with warmth and intelligence"
+  }
+  </script>
+</head>
+<body>
+  
+  <!-- Skip to Content Link (WCAG 2.4.1) -->
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
+  
+  <!-- ============================================
+       NAVBAR - Fixed Navigation
+       BEM: navbar, navbar__container, navbar__logo, navbar__nav, navbar__link, navbar__badge
+       ============================================ -->
+  <header class="navbar" role="banner">
+    <nav class="container navbar__container" role="navigation" aria-label="Main navigation">
+      <a href="#hero" class="navbar__logo">
+        Orlando Studio
+      </a>
+      <ul class="navbar__nav">
+        <li><a href="#features" class="navbar__link">Features</a></li>
+        <li><a href="#showcase" class="navbar__link">Showcase</a></li>
+        <li><a href="#demo" class="navbar__link">Demo</a></li>
+        <li><a href="#cta" class="navbar__link">Sign Up</a></li>
+        <li><a href="https://usable.dev" target="_blank" rel="noopener" class="navbar__badge">Powered by Usable</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" role="main">
+    
+    <!-- ============================================
+         HERO SECTION - Above the fold
+         BEM: hero, hero__content, hero__title, hero__subtitle, hero__form
+         ============================================ -->
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="hero__content">
+          
+          <!-- Status badge -->
+          <div class="badge badge--primary mb-lg">
+            Launching Soon
+          </div>
+          
+          <!-- Hero headline -->
+          <h1 class="hero__title" id="hero-title">
+            Beautiful landing pages<br>no code required
+          </h1>
+          
+          <!-- Hero description -->
+          <p class="hero__subtitle">
+            Orlando is an AI design partner that brings warmth and intelligence to web design. Create landing pages that feel personal and look professional — no code required.
+          </p>
+          
+          <!-- Sign-up form -->
+          <div class="hero__form" id="signup">
+            <h2 class="hero__form-heading">Join the Waitlist</h2>
+            <p class="hero__form-note">
+              Be first to experience Orlando Studio when it launches
+            </p>
+            <form id="signupForm" aria-label="Waitlist signup form">
+              <div class="input-group">
+                <label for="emailInput" class="input-group__label visually-hidden">Email address</label>
+                <input 
+                  type="email" 
+                  id="emailInput"
+                  class="input-group__field" 
+                  placeholder="your.email@example.com" 
+                  required
+                  aria-required="true"
+                >
+              </div>
+              <button type="submit" class="btn btn--primary" aria-label="Sign up for waitlist">
+                Sign Up
+              </button>
+            </form>
+            
+            <!-- Success message (hidden initially) -->
+            <div class="form-success" id="successMessage" role="status" aria-live="polite">
+              Thank you for joining. Orlando will notify you when the studio is ready.
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         FEATURES SECTION - What is Orlando Studio?
+         BEM: features, features__heading, features__title, features__subtitle, features__grid
+         Uses generic .card component with BEM
+         ============================================ -->
+    <section class="features" id="features" aria-labelledby="features-title">
+      <div class="container">
+        
+        <!-- Section heading -->
+        <div class="features__heading">
+          <h2 class="features__title" id="features-title">Why Orlando Studio?</h2>
+          <p class="features__subtitle">
+            Orlando understands that great design comes from both intelligence and intuition — combining AI capabilities with design principles that create sites people enjoy using.
+          </p>
+        </div>
+        
+        <!-- Features grid -->
+        <div class="features__grid">
+          
+          <!-- Feature Card 1 -->
+          <div class="card">
+            <h3 class="card__title">Intelligent Design</h3>
+            <p class="card__description">
+              Orlando learns from your preferences and applies design principles consistently. The system understands brand requirements and suggests improvements based on established patterns.
+            </p>
+          </div>
+          
+          <!-- Feature Card 2 -->
+          <div class="card">
+            <h3 class="card__title">Professional Quality</h3>
+            <p class="card__description">
+              Every element follows design best practices — proper typography hierarchy, color theory, and spacing. The result is polished and production-ready.
+            </p>
+          </div>
+          
+          <!-- Feature Card 3 -->
+          <div class="card">
+            <h3 class="card__title">Natural Communication</h3>
+            <p class="card__description">
+              Describe design requirements in plain language. Orlando translates intent into implementation without requiring technical knowledge or code.
+            </p>
+          </div>
+          
+          <!-- Feature Card 4 -->
+          <div class="card">
+            <h3 class="card__title">Instant Deployment</h3>
+            <p class="card__description">
+              Sites deploy directly to GitHub Pages with a single action. No server configuration, no build pipelines — just clean, static HTML that loads fast.
+            </p>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SHOWCASE SECTION - Carousel of example sites
+         BEM: showcase, showcase__carousel, showcase__slide, showcase__card, showcase__controls
+         ============================================ -->
+    <section class="showcase" id="showcase" aria-labelledby="showcase-title">
+      <div class="container">
+        
+        <!-- Section heading -->
+        <div class="showcase__heading">
+          <h2 class="showcase__title" id="showcase-title">Examples</h2>
+          <p class="showcase__subtitle">
+            Landing pages created with Orlando's design system — each with unique requirements and visual approaches.
+          </p>
+        </div>
+        
+        <!-- Carousel container -->
+        <div class="showcase__carousel">
+          
+          <!-- Carousel viewport -->
+          <div class="showcase__viewport">
+            <div class="showcase__track">
+              
+              <!-- Slide 1: Usable -->
+              <div class="showcase__slide">
+                <div class="showcase__card">
+                  <div class="showcase__image">
+                    <img src="public/images/showcase/Usable.png" alt="Usable landing page featuring their mascot character and tagline 'Your AI Agent Sucks at Knowledge Management - Usable to the rescue' with plug-and-play knowledge management description">
+                  </div>
+                  <div class="showcase__card-content">
+                    <h3 class="showcase__card-title">Usable</h3>
+                    <p class="showcase__card-description">
+                      Knowledge Management for AI Agents - The platform powering Orlando Studio
+                    </p>
+                    <a href="https://usable.dev" target="_blank" rel="noopener" class="link-with-icon">
+                      View Site <span>→</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Slide 2: Flowcore -->
+              <div class="showcase__slide">
+                <div class="showcase__card">
+                  <div class="showcase__image">
+                    <img src="public/images/showcase/Flowcore.png" alt="Flowcore landing page with dark theme displaying 'Event Storage and Processing' headline and 'Data Platform for AI Developers' with statistics showing 10M+ events per second and 99.9% uptime">
+                  </div>
+                  <div class="showcase__card-content">
+                    <h3 class="showcase__card-title">Flowcore</h3>
+                    <p class="showcase__card-description">
+                      Event Storage Platform for AI Developers - Process millions of events per second
+                    </p>
+                    <a href="https://flowcore.com" target="_blank" rel="noopener" class="link-with-icon">
+                      View Site <span>→</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Slide 3: Vitlíki -->
+              <div class="showcase__slide">
+                <div class="showcase__card">
+                  <div class="showcase__image">
+                    <img src="public/images/showcase/Vitliki.png" alt="Vitlíki landing page for Talgildu Føroyar with ocean gradient background, featuring 'Vitlíki fyri allar Føroyar' headline in Faroese and call-to-action buttons">
+                  </div>
+                  <div class="showcase__card-content">
+                    <h3 class="showcase__card-title">Vitlíki</h3>
+                    <p class="showcase__card-description">
+                      Digital Innovation Initiative - Building AI capabilities in the Faroe Islands
+                    </p>
+                    <a href="https://vitliki.talgildu.fo" target="_blank" rel="noopener" class="link-with-icon">
+                      View Site <span>→</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Slide 4: Tonik -->
+              <div class="showcase__slide">
+                <div class="showcase__card">
+                  <div class="showcase__image">
+                    <img src="public/images/showcase/Tonik.png" alt="Tonik event landing page with vibrant purple and pink gradient, featuring large 'TONIK' typography and tagline 'Let's Ride THE NEXT WAVE' for the tech and art summit in Faroe Islands">
+                  </div>
+                  <div class="showcase__card-content">
+                    <h3 class="showcase__card-title">Tonik</h3>
+                    <p class="showcase__card-description">
+                      Tech & Art Summit - Where business, creativity, and innovation converge
+                    </p>
+                    <a href="https://tonik.fo" target="_blank" rel="noopener" class="link-with-icon">
+                      View Site <span>→</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         DEMO SECTION - Interactive demo placeholder
+         BEM: demo, demo__heading, demo__placeholder
+         Uses .card--dashed modifier
+         ============================================ -->
+    <section class="demo" id="demo" aria-labelledby="demo-title">
+      <div class="container">
+        
+        <!-- Section heading -->
+        <div class="demo__heading">
+          <h2 class="demo__title" id="demo-title">Try Orlando Studio</h2>
+          <p class="demo__subtitle">
+            A lite preview of Orlando's design capabilities
+          </p>
+        </div>
+        
+        <!-- Demo placeholder -->
+        <div class="demo__placeholder">
+          <div class="card card--dashed">
+            <p class="card__description">
+              An interactive demo is in development where you can chat with Orlando to customize a premade landing page template. Make design changes, adjust colors and spacing, or refine typography — all through natural conversation.
+            </p>
+            <p class="card__quote">
+              "A small taste of what Orlando can do"
+            </p>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+
+    <!-- ============================================
+         CTA SECTION - Final call-to-action
+         BEM: cta, cta__content, cta__heading, cta__description, cta__actions
+         ============================================ -->
+    <section class="cta" id="cta">
+      <div class="container">
+        <div class="cta__content">
+          
+          <!-- CTA Heading -->
+          <h2 class="cta__heading">Ready to get started?</h2>
+          
+          <!-- CTA Description -->
+          <p class="cta__description">
+            Orlando Studio is built on Usable — a platform that gives AI agents memory and context. This means Orlando remembers your preferences and learns your style, getting better at assisting you with each project.
+          </p>
+          
+          <!-- CTA Actions -->
+          <div class="cta__actions">
+            <a href="#signup" class="btn btn--primary cta__btn--primary">
+              Join Waitlist
+            </a>
+            <a href="https://usable.dev" target="_blank" rel="noopener" class="btn btn--secondary cta__btn--secondary">
+              Learn About Usable
+            </a>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================
+       FOOTER - Site footer
+       BEM: footer, footer__top, footer__bottom, footer__brand, footer__tagline, footer__copyright, footer__attribution
+       ============================================ -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      
+      <!-- Top: Brand and tagline -->
+      <div class="footer__top">
+        <div class="footer__brand">Orlando Studio</div>
+        <p class="footer__tagline">
+          AI-powered landing page design with professional results and personal touch
+        </p>
+      </div>
+      
+      <!-- Bottom: Copyright and attribution -->
+      <div class="footer__bottom">
+        <p class="footer__copyright">
+          © 2026 Usable. All rights reserved.
+        </p>
+        <p class="footer__attribution">
+          Built with 🧡 · Powered by <a href="https://usable.dev" target="_blank" rel="noopener">Usable</a>
+        </p>
+      </div>
+      
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/carousel.js"></script>
+  <script src="js/signup.js"></script>
+  
+</body>
+</html>

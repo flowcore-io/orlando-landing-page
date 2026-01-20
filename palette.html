@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orlando Studio - Color Palette</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #1a1d1f;
+      color: #f5f5f5;
+      padding: 3rem 2rem;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .subtitle {
+      text-align: center;
+      color: #b8b8b8;
+      margin-bottom: 3rem;
+      font-size: 1.125rem;
+    }
+    
+    .section {
+      margin-bottom: 3rem;
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: #f4a261;
+    }
+    
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .color-card {
+      background: #242729;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+    
+    .color-swatch {
+      height: 120px;
+      width: 100%;
+      border-bottom: 2px solid var(--color-olive-15);
+    }
+    
+    .color-info {
+      padding: 1rem;
+    }
+    
+    .color-name {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #f5f5f5;
+    }
+    
+    .color-value {
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      color: #8b9d83;
+    }
+    
+    .gradient-card {
+      background: #242729;
+      border-radius: 1rem;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-card);
+    }
+    
+    .gradient-swatch {
+      height: 150px;
+      width: 100%;
+    }
+    
+    .gradient-info {
+      padding: 1rem;
+    }
+    
+    .gradient-name {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #f5f5f5;
+    }
+    
+    .gradient-desc {
+      font-size: 0.875rem;
+      color: #b8b8b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 Orlando Studio Color Palette</h1>
+    <p class="subtitle">Dark Italian Renaissance - Painterly Lemon Grove Aesthetic</p>
+    
+    <!-- Primary Colors -->
+    <div class="section">
+      <h2 class="section-title">Primary Colors - Dark Italian Artisan</h2>
+      <div class="color-grid">
+        <div class="color-card">
+          <div class="color-swatch" style="background: #d4af37;"></div>
+          <div class="color-info">
+            <div class="color-name">Primary / Gold</div>
+            <div class="color-value">#d4af37</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background: #e76f51;"></div>
+          <div class="color-info">
+            <div class="color-name">Tomato</div>
+            <div class="color-value">#e76f51</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background: #2a9d8f;"></div>
+          <div class="color-info">
+            <div class="color-name">Teal</div>
+            <div class="color-value">#2a9d8f</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background: #6b7c59;"></div>
+          <div class="color-info">
+            <div class="color-name">Olive</div>
+            <div class="color-value">#6b7c59</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Dark Neutrals -->
+    <div class="section">
+      <h2 class="section-title">Dark Neutral Palette</h2>
+      <div class="color-grid">
+        <div class="color-card">
+          <div class="color-swatch" style="background: #1a1d1f;"></div>
+          <div class="color-info">
+            <div class="color-name">Background</div>
+            <div class="color-value">#1a1d1f</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background: #242729;"></div>
+          <div class="color-info">
+            <div class="color-name">Surface</div>
+            <div class="color-value">#242729</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background: #2d3235;"></div>
+          <div class="color-info">
+            <div class="color-name">Surface Light</div>
+            <div class="color-value">#2d3235</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background: #383c3f;"></div>
+          <div class="color-info">
+            <div class="color-name">Muted</div>
+            <div class="color-value">#383c3f</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Text Colors -->
+    <div class="section">
+      <h2 class="section-title">Text Colors - Light on Dark</h2>
+      <div class="color-grid">
+        <div class="color-card">
+          <div class="color-swatch" style="background: #f5f5f5;"></div>
+          <div class="color-info">
+            <div class="color-name">Text Primary</div>
+            <div class="color-value">#f5f5f5</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background: #b8b8b8;"></div>
+          <div class="color-info">
+            <div class="color-name">Text Secondary</div>
+            <div class="color-value">#b8b8b8</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background: #8a8a8a;"></div>
+          <div class="color-info">
+            <div class="color-name">Text Muted</div>
+            <div class="color-value">#8a8a8a</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Gradients -->
+    <div class="section">
+      <h2 class="section-title">Gradients</h2>
+      
+      <div class="gradient-card">
+        <div class="gradient-swatch" style="background: linear-gradient(135deg, #d4af37 0%, #e76f51 100%);"></div>
+        <div class="gradient-info">
+          <div class="gradient-name">Hero Gradient</div>
+          <div class="gradient-desc">Gold → Tomato (135deg)</div>
+        </div>
+      </div>
+      
+      <div class="gradient-card">
+        <div class="gradient-swatch" style="background: var(--gradient-warm);"></div>
+        <div class="gradient-info">
+          <div class="gradient-name">Warm Gradient</div>
+          <div class="gradient-desc">Subtle gold/tomato overlay (180deg)</div>
+        </div>
+      </div>
+      
+      <div class="gradient-card">
+        <div class="gradient-swatch" style="background: linear-gradient(135deg, #d4af37 0%, #e76f51 100%);"></div>
+        <div class="gradient-info">
+          <div class="gradient-name">Sunset Gradient</div>
+          <div class="gradient-desc">Gold → Tomato (135deg)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

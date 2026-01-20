@@ -1,0 +1,80 @@
+/**
+ * Orlando Studio - Footer Component
+ * Brand above divider, copyright and attribution below
+ * BEM: footer, footer__top, footer__bottom, footer__brand, footer__tagline, footer__copyright, footer__attribution
+ */
+
+.footer {
+  background: var(--color-background-95);
+  padding: var(--space-3xl) 0 var(--space-3xl);
+  border-top: 1px solid var(--color-border-tomato);
+  backdrop-filter: blur(20px);
+}
+
+.footer__top {
+  text-align: left;
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-xl);
+  border-bottom: 1px solid var(--color-olive-10);
+}
+
+.footer__brand {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-md);
+}
+
+.footer__tagline {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+  max-width: 600px;
+}
+
+.footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-xl);
+  flex-wrap: wrap;
+}
+
+.footer__copyright {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-tiny);
+  margin: 0;
+}
+
+.footer__attribution {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-tiny);
+  margin: 0;
+}
+
+.footer__attribution a {
+  color: var(--color-text-muted);
+  font-weight: var(--font-normal);
+  transition: color var(--transition-fast);
+}
+
+.footer__attribution a:hover {
+  color: var(--color-text-secondary);
+}
+
+/* Orlando Standard: Use box-shadow for focus, not outline */
+.footer__attribution a:focus {
+  box-shadow: 0 0 0 3px var(--color-primary-30);
+  border-radius: var(--radius-sm);
+  outline: none;
+}
+
+/* Mobile: Stack bottom elements */
+@media (max-width: 768px) {
+  .footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+}

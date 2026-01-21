@@ -24,6 +24,7 @@
 }
 
 .cta__content {
+  /* Orlando Note: Could use .max-w-700 utility in HTML */
   max-width: 700px;
   margin: 0 auto;
   position: relative;
@@ -56,3 +57,34 @@
 
 /* CTA buttons use standard button styles from shared.css
    No custom overrides needed - they inherit the gold -> teal behavior */
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cta__heading {
+    font-size: var(--font-size-h2);
+  }
+  
+  .cta__description {
+    font-size: var(--font-size-body);
+  }
+}
+
+@media (max-width: 480px) {
+  .cta__heading {
+    font-size: var(--font-size-h3);
+    margin-bottom: var(--space-md);
+  }
+  
+  .cta__description {
+    font-size: var(--font-size-small);
+    margin-bottom: var(--space-xl);
+  }
+  
+  .cta__actions {
+    gap: var(--space-md);
+  }
+  
+  .cta__actions .btn {
+    width: 100%;
+  }
+}

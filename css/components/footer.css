@@ -26,6 +26,7 @@
 }
 
 .footer__tagline {
+  /* Orlando Note: Could use .max-w-600 utility in HTML */
   color: var(--color-text-secondary);
   font-size: var(--font-size-small);
   line-height: var(--line-height-relaxed);
@@ -54,20 +55,20 @@
 }
 
 .footer__attribution a {
-  color: var(--color-text-muted);
+  color: var(--color-link);
   font-weight: var(--font-normal);
   transition: color var(--transition-fast);
 }
 
 .footer__attribution a:hover {
-  color: var(--color-text-secondary);
+  color: var(--color-primary);
 }
 
-/* Orlando Standard: Use box-shadow for focus, not outline */
-.footer__attribution a:focus {
-  box-shadow: 0 0 0 3px var(--color-primary-30);
+/* Orlando Standard: Use 1px teal outline for focus consistency */
+.footer__attribution a:focus-visible {
+  outline: 1px solid var(--color-teal);
+  outline-offset: 2px;
   border-radius: var(--radius-sm);
-  outline: none;
 }
 
 /* Mobile: Stack bottom elements */

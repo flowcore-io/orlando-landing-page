@@ -25,6 +25,7 @@
 }
 
 .showcase__heading {
+  /* Orlando Note: Could use .section-heading + .max-w-700 utilities in HTML */
   text-align: center;
   max-width: 700px;
   margin: 0 auto var(--space-4xl);
@@ -160,7 +161,14 @@
   font-size: var(--font-size-lg);
 }
 
-/* Mobile adjustments */
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .showcase__heading {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
+}
+
 @media (max-width: 767px) {
   .showcase__slide {
     width: 85vw;
@@ -176,5 +184,23 @@
   
   .showcase__card-description {
     font-size: var(--font-size-body);
+  }
+  
+  .showcase__title {
+    font-size: var(--font-size-h2);
+  }
+  
+  .showcase__subtitle {
+    font-size: var(--font-size-body);
+  }
+}
+
+@media (max-width: 480px) {
+  .showcase__card-content {
+    padding: var(--space-lg);
+  }
+  
+  .showcase__slide {
+    width: 90vw;
   }
 }

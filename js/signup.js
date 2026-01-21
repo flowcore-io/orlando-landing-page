@@ -98,15 +98,15 @@ class SignupForm {
    * @param {boolean} skipAnimation - Skip fade-in animation (for page load)
    */
   showSuccess(skipAnimation = false) {
-    // Hide form
-    this.form.style.display = 'none';
+    // Hide form using utility class
+    this.form.classList.add('hidden');
     
     // Show success message by adding show class
     this.successMessage.classList.add('show');
     
     // Add fade-in animation if not skipped
     if (!skipAnimation) {
-      this.successMessage.style.animation = 'fadeIn 400ms ease-out';
+      this.successMessage.classList.add('fade-in');
     }
   }
   

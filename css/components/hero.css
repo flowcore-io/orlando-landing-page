@@ -39,6 +39,7 @@
 }
 
 .hero__content {
+  /* Orlando Note: Could use .max-w-800 + .text-center utilities in HTML */
   max-width: 800px;
   width: 100%;
   margin: 0 auto;
@@ -47,32 +48,104 @@
   z-index: 2;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .hero__content {
-    max-width: 600px;
-  }
-  
+/* Responsive adjustments - Following Usable mobile optimization standards */
+/* Tablets and Mobile - Stack form vertically */
+@media (max-width: 900px) {
   .hero__form {
-    padding: var(--space-2xl) var(--space-3xl);
+    padding: var(--space-2xl) var(--space-xl) !important;
+    max-width: 100%;
+    border-radius: var(--radius-lg);
   }
   
   .hero__form form {
-    flex-direction: column;
+    flex-direction: column !important;
+    gap: var(--space-md);
+  }
+  
+  .hero__form .input-group {
+    width: 100%;
+  }
+  
+  .hero__form .input-group__field {
+    width: 100%;
+    min-height: 48px; /* WCAG 2.1 AA compliant touch target */
   }
   
   .hero__form .btn {
     width: 100%;
+    min-height: 48px; /* WCAG 2.1 AA compliant touch target */
   }
 }
 
-@media (max-width: 480px) {
+/* Mobile Devices (up to 767px) - Comfortable padding */
+@media (max-width: 767px) {
+  .hero__content {
+    max-width: 100%;
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
+  
+  .hero__title {
+    margin-bottom: var(--space-lg);
+  }
+  
+  .hero__subtitle {
+    font-size: var(--font-size-body);
+    margin-bottom: var(--space-xl);
+  }
+  
   .hero__form {
-    padding: var(--space-2xl) var(--space-xl);
+    padding: var(--space-2xl) var(--space-lg) !important;
   }
   
   .hero__form-heading {
     font-size: var(--font-size-h3);
+    margin-bottom: var(--space-md);
+  }
+  
+  .hero__form-note {
+    font-size: var(--font-size-small);
+    margin-bottom: var(--space-md);
+  }
+}
+
+/* Ultra-Small Mobile Devices (up to 640px) - Compact but comfortable */
+@media (max-width: 640px) {
+  .hero__content {
+    padding-left: var(--space-sm);
+    padding-right: var(--space-sm);
+  }
+  
+  .hero__form {
+    padding: var(--space-xl) var(--space-md) !important;
+    border-radius: var(--radius);
+  }
+  
+  .hero__form-heading {
+    font-size: var(--font-size-h4);
+    margin-bottom: var(--space-sm);
+  }
+  
+  .hero__form-note {
+    font-size: var(--font-size-tiny);
+    line-height: var(--line-height-normal);
+    margin-bottom: var(--space-sm);
+  }
+  
+  .hero__form form {
+    gap: var(--space-sm);
+  }
+  
+  .hero__form .input-group__field {
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-small);
+    min-height: 48px; /* Maintain WCAG compliance */
+  }
+  
+  .hero__form .btn {
+    padding: var(--space-sm) var(--space-lg);
+    font-size: var(--font-size-small);
+    min-height: 48px; /* Maintain WCAG compliance */
   }
 }
 
@@ -116,6 +189,7 @@
 }
 
 .hero__form-note {
+  /* Orlando Note: Could use .text-center utility in HTML */
   color: var(--color-text-secondary);
   font-size: var(--font-size-body);
   margin: 0 0 var(--space-xl) 0;
@@ -143,15 +217,16 @@
   min-height: 48px;
 }
 
-.hero__form .input-group__field:focus {
+.hero__form .input-group__field:focus-visible {
   background: var(--color-surface-light-100);
-  border-color: var(--color-primary);
+  border-color: var(--color-teal);
+  outline: 1px solid var(--color-teal);
+  outline-offset: 2px;
 }
 
 .hero__form .btn {
   min-height: 48px;
   font-size: var(--font-size-body);
-  font-weight: var(--font-semibold);
   padding-left: var(--space-2xl);
   padding-right: var(--space-2xl);
   white-space: nowrap;

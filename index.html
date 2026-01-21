@@ -82,13 +82,21 @@
   
   <!-- ============================================
        NAVBAR - Fixed Navigation
-       BEM: navbar, navbar__container, navbar__logo, navbar__nav, navbar__link, navbar__badge
+       BEM: navbar, navbar__container, navbar__logo, navbar__nav, navbar__link, navbar__badge, navbar__toggle
        ============================================ -->
   <header class="navbar" role="banner">
     <nav class="container navbar__container" role="navigation" aria-label="Main navigation">
       <a href="#hero" class="navbar__logo">
         Orlando Studio
       </a>
+      
+      <!-- Mobile menu toggle button -->
+      <button class="navbar__toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span class="navbar__toggle-line"></span>
+        <span class="navbar__toggle-line"></span>
+        <span class="navbar__toggle-line"></span>
+      </button>
+      
       <ul class="navbar__nav">
         <li><a href="#features" class="navbar__link">Features</a></li>
         <li><a href="#showcase" class="navbar__link">Showcase</a></li>
@@ -98,6 +106,9 @@
       </ul>
     </nav>
   </header>
+
+  <!-- Mobile menu backdrop -->
+  <div class="navbar__backdrop"></div>
 
   <main id="main-content" role="main">
     
@@ -404,9 +415,10 @@
     </div>
   </footer>
 
-  <!-- Scripts -->
-  <script src="js/carousel.js"></script>
-  <script src="js/signup.js"></script>
+  <!-- Scripts - Deferred for optimal performance -->
+  <script src="js/navigation.js" defer></script>
+  <script src="js/carousel.js" defer></script>
+  <script src="js/signup.js" defer></script>
   
 </body>
 </html>

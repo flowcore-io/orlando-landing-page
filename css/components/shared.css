@@ -56,8 +56,9 @@
   touch-action: manipulation;
 }
 
-.btn:focus {
-  box-shadow: 0 0 0 3px var(--color-tomato-40);
+.btn:focus-visible {
+  outline: 1px solid var(--color-teal);
+  outline-offset: 2px;
 }
 
 .btn--primary {
@@ -72,8 +73,9 @@
   color: var(--color-text-primary);
 }
 
-.btn--primary:focus {
-  box-shadow: 0 0 0 3px var(--color-tomato-40), var(--shadow-lg);
+.btn--primary:focus-visible {
+  outline: 1px solid var(--color-teal);
+  outline-offset: 2px;
 }
 
 .btn--secondary {
@@ -90,7 +92,8 @@
 }
 
 .btn--secondary:focus-visible {
-  box-shadow: 0 0 0 3px var(--color-olive-30);
+  outline: 1px solid var(--color-teal);
+  outline-offset: 2px;
 }
 
 /* ============================================
@@ -131,6 +134,7 @@
 
 /* Card Modifier - Dashed border style for placeholders */
 .card--dashed {
+  /* Orlando Note: Could use .flex-center + .text-center utilities in HTML */
   border-style: dashed;
   border-width: 1px;
   border-color: var(--color-border);
@@ -150,6 +154,7 @@
 }
 
 .card--dashed .card__description {
+  /* Orlando Note: Could use .max-w-600 utility in HTML */
   max-width: 600px;
   margin-bottom: var(--space-xl);
 }
@@ -190,9 +195,10 @@
   color: var(--color-text-primary);
 }
 
-.input-group__field:focus {
-  border-color: var(--color-tomato);
-  box-shadow: 0 0 0 3px var(--color-tomato-20);
+.input-group__field:focus-visible {
+  border-color: var(--color-teal);
+  outline: 1px solid var(--color-teal);
+  outline-offset: 2px;
 }
 
 .input-group__field::placeholder {
@@ -290,9 +296,10 @@
   color: var(--color-primary);
 }
 
-/* Orlando Standard: Use box-shadow for focus, not outline */
-.link-with-icon:focus {
-  box-shadow: 0 0 0 3px var(--color-tomato-30);
+/* Orlando Standard: Use 1px teal outline for focus consistency */
+.link-with-icon:focus-visible {
+  outline: 1px solid var(--color-teal);
+  outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
 

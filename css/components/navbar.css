@@ -1,7 +1,7 @@
 /**
  * Orlando Studio - Navbar Component
- * Fixed navigation header
- * BEM: navbar, navbar__container, navbar__logo, navbar__nav, navbar__link, navbar__badge
+ * Fixed navigation header with logo icon
+ * BEM: navbar, navbar__wrapper, navbar__container, navbar__logo, navbar__logo-icon, navbar__menu, navbar__nav, navbar__link, navbar__badge, navbar__toggle, navbar__toggle-line, navbar__backdrop
  */
 
 .navbar {
@@ -13,22 +13,43 @@
   background: var(--color-background-95);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border-tomato);
-  padding: var(--space-sm) 0;
+  padding: var(--space-xs) 0;
   transition: all var(--transition-normal);
+}
+
+.navbar__wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
 }
 
 .navbar__container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-xl);
+  flex: 1;
 }
 
 .navbar__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px; /* Very tight for tomato "O" effect */
   font-size: var(--font-size-body); /* Smaller, more refined */
   font-weight: var(--font-semibold); /* Less heavy, more elegant */
   color: var(--color-text-primary);
   text-decoration: none;
   letter-spacing: var(--letter-spacing-tight); /* Tighter, more modern */
+  position: relative;
+  z-index: 10;
+}
+
+.navbar__logo-icon {
+  width: 26px;
+  height: 26px;
+  display: block;
+  transform: translateY(-4px); /* Fine-tune vertical alignment */
 }
 
 /* Orlando Standard: Use 1px teal outline for focus consistency */
@@ -38,10 +59,18 @@
   border-radius: var(--radius-sm);
 }
 
+.navbar__menu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+  margin-left: auto;
+}
+
 .navbar__nav {
   display: flex;
   align-items: center;
-  gap: var(--space-2xl);
+  gap: var(--space-lg); /* Compact spacing for navbar */
   list-style: none;
 }
 
@@ -50,11 +79,13 @@
   font-weight: var(--font-normal); /* Lighter weight for elegance */
   font-size: var(--font-size-small);
   transition: color var(--transition-fast);
-  padding: var(--space-xs) var(--space-sm); /* More compact padding */
-  min-height: 44px;
+  padding: var(--space-xs) var(--space-md); /* Compact padding */
+  min-height: 40px;
   display: inline-flex;
   align-items: center;
   border-radius: var(--radius-sm);
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .navbar__link:hover {
@@ -67,27 +98,40 @@
   outline-offset: 2px;
 }
 
+/* Navbar-specific button styling - more compact than standard buttons */
+.navbar__nav .btn {
+  padding: var(--space-xs) var(--space-lg);
+  min-height: 36px;
+  font-size: var(--font-size-small);
+  line-height: 1.2;
+}
+
 .navbar__badge {
-  background: var(--color-surface-90);
+  white-space: nowrap;
+  background: transparent;
+  position: absolute;
+  right: var(--space-lg);
+  z-index: 10;
   color: var(--color-text-secondary);
-  padding: var(--space-xs) var(--space-md);
-  border-radius: var(--radius-full);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
   font-size: var(--font-size-tiny);
-  font-weight: var(--font-medium);
+  font-weight: var(--font-normal); /* Lighter weight */
   text-transform: uppercase;
   letter-spacing: var(--letter-spacing-wide);
   border: 1px solid var(--color-border);
   transition: all var(--transition-normal);
-  backdrop-filter: blur(10px);
   display: inline-flex;
   align-items: center;
   line-height: 1;
+  opacity: 0.7; /* Subtle */
+  text-decoration: none;
 }
 
 .navbar__badge:hover {
-  background: var(--color-tomato);
-  color: var(--color-text-on-accent);
-  border-color: var(--color-tomato);
+  opacity: 1;
+  border-color: var(--color-teal);
+  color: var(--color-teal);
 }
 
 /* Orlando Standard: Use 1px teal outline for focus consistency */
@@ -115,6 +159,7 @@
   z-index: 101;
   transition: all var(--transition-normal);
   position: relative;
+  margin-left: auto;
 }
 
 .navbar__toggle:active {
@@ -191,12 +236,31 @@
 
 /* Mobile and Tablet navbar - Hamburger menu for better UX */
 @media (max-width: 1024px) {
-  .navbar__toggle {
-    display: flex;
+  .navbar__wrapper {
+    padding-right: calc(48px + var(--space-md)); /* Make room for hamburger */
   }
   
-  .navbar__nav {
+  .navbar__container {
+    gap: var(--space-md);
+  }
+  
+  .navbar__toggle {
+    display: flex;
+    position: absolute;
+    right: var(--space-md);
+    margin-left: 0;
+  }
+  
+  .navbar__badge {
+    font-size: var(--font-size-tiny);
+    padding: var(--space-2xs) var(--space-xs);
+    right: calc(48px + var(--space-lg)); /* Position left of hamburger */
+  }
+  
+  .navbar__menu {
     position: fixed;
+    transform: none;
+    left: auto;
     top: 0;
     right: -100%;
     width: 280px;
@@ -207,15 +271,22 @@
     transition: right var(--transition-normal);
     z-index: 100;
     flex-direction: column;
-    gap: var(--space-md);
-    align-items: flex-start;
+    gap: var(--space-2xl);
+    align-items: stretch;
     border-left: 1px solid var(--color-border);
     box-shadow: var(--shadow-lg);
     overflow-y: auto;
+    pointer-events: auto;
   }
   
-  .navbar__nav.active {
+  .navbar__menu.active {
     right: 0;
+  }
+  
+  .navbar__nav {
+    flex-direction: column;
+    gap: var(--space-md);
+    align-items: stretch;
   }
   
   .navbar__link {
@@ -230,11 +301,8 @@
     background: var(--color-surface-80);
   }
   
-  .navbar__badge {
+  .navbar__menu .btn {
     width: 100%;
-    justify-content: center;
-    padding: var(--space-md) var(--space-lg);
-    margin-top: var(--space-lg);
   }
 }
 

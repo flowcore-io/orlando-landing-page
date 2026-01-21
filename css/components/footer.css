@@ -1,7 +1,7 @@
 /**
  * Orlando Studio - Footer Component
- * Brand above divider, copyright and attribution below
- * BEM: footer, footer__top, footer__bottom, footer__brand, footer__tagline, footer__copyright, footer__attribution
+ * Brand with logo icon above divider, copyright and attribution below
+ * BEM: footer, footer__top, footer__bottom, footer__brand, footer__brand-icon, footer__tagline, footer__copyright, footer__attribution
  */
 
 .footer {
@@ -19,10 +19,20 @@
 }
 
 .footer__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px; /* Very tight for tomato "O" effect */
   font-size: var(--font-size-h3);
   font-weight: var(--font-semibold);
   color: var(--color-text-primary);
   margin-bottom: var(--space-md);
+}
+
+.footer__brand-icon {
+  width: 26px;
+  height: 26px;
+  display: block;
+  transform: translateY(-3px);
 }
 
 .footer__tagline {

@@ -14,9 +14,15 @@
   <meta property="og:description" content="AI-powered landing page design with professional results and personal touch.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://orlando.studio/">
-  <!-- TODO: Add og:image when brand assets are created -->
+  <meta property="og:image" content="https://orlando.studio/public/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Orlando Studio - Professional Landing Page Design">
   
   <title>Orlando Studio - Professional Landing Pages</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="public/images/TomatoFavicon2.png">
   
   <!-- Preconnect to external domains for performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -85,26 +91,32 @@
        BEM: navbar, navbar__container, navbar__logo, navbar__nav, navbar__link, navbar__badge, navbar__toggle
        ============================================ -->
   <header class="navbar" role="banner">
-    <nav class="container navbar__container" role="navigation" aria-label="Main navigation">
-      <a href="#hero" class="navbar__logo">
-        Orlando Studio
-      </a>
+    <div class="navbar__wrapper">
+      <nav class="container navbar__container" role="navigation" aria-label="Main navigation">
+        <a href="#hero" class="navbar__logo">
+          <img src="public/images/TomatoFavicon2.png" alt="Orlando Studio" class="navbar__logo-icon">
+          <span>rlando Studio</span>
+        </a>
+        
+        <!-- Mobile menu toggle button -->
+        <button class="navbar__toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="navbar__toggle-line"></span>
+          <span class="navbar__toggle-line"></span>
+          <span class="navbar__toggle-line"></span>
+        </button>
+        
+        <div class="navbar__menu">
+          <ul class="navbar__nav">
+            <li><a href="#features" class="navbar__link">Features</a></li>
+            <li><a href="#showcase" class="navbar__link">Showcase</a></li>
+            <li><a href="#demo" class="navbar__link">Demo</a></li>
+            <li><a href="#cta" class="btn btn--primary">Sign Up</a></li>
+          </ul>
+        </div>
+      </nav>
       
-      <!-- Mobile menu toggle button -->
-      <button class="navbar__toggle" aria-label="Toggle navigation menu" aria-expanded="false">
-        <span class="navbar__toggle-line"></span>
-        <span class="navbar__toggle-line"></span>
-        <span class="navbar__toggle-line"></span>
-      </button>
-      
-      <ul class="navbar__nav">
-        <li><a href="#features" class="navbar__link">Features</a></li>
-        <li><a href="#showcase" class="navbar__link">Showcase</a></li>
-        <li><a href="#demo" class="navbar__link">Demo</a></li>
-        <li><a href="#cta" class="navbar__link">Sign Up</a></li>
-        <li><a href="https://usable.dev" target="_blank" rel="noopener" class="navbar__badge">Powered by Usable</a></li>
-      </ul>
-    </nav>
+      <a href="https://usable.dev" target="_blank" rel="noopener" class="navbar__badge">Powered by Usable</a>
+    </div>
   </header>
 
   <!-- Mobile menu backdrop -->
@@ -249,7 +261,7 @@
               <div class="showcase__slide">
                 <div class="showcase__card">
                   <div class="showcase__image">
-                    <img src="public/images/showcase/Usable.png" alt="Usable landing page featuring their mascot character and tagline 'Your AI Agent Sucks at Knowledge Management - Usable to the rescue' with plug-and-play knowledge management description">
+                    <img src="public/images/showcase/Usable.webp" alt="Usable landing page featuring their mascot character and tagline 'Your AI Agent Sucks at Knowledge Management - Usable to the rescue' with plug-and-play knowledge management description">
                   </div>
                   <div class="showcase__card-content">
                     <h3 class="showcase__card-title">Usable</h3>
@@ -267,7 +279,7 @@
               <div class="showcase__slide">
                 <div class="showcase__card">
                   <div class="showcase__image">
-                    <img src="public/images/showcase/Flowcore.png" alt="Flowcore landing page with dark theme displaying 'Event Storage and Processing' headline and 'Data Platform for AI Developers' with statistics showing 10M+ events per second and 99.9% uptime">
+                    <img src="public/images/showcase/Flowcore.webp" alt="Flowcore landing page with dark theme displaying 'Event Storage and Processing' headline and 'Data Platform for AI Developers' with statistics showing 10M+ events per second and 99.9% uptime">
                   </div>
                   <div class="showcase__card-content">
                     <h3 class="showcase__card-title">Flowcore</h3>
@@ -285,7 +297,7 @@
               <div class="showcase__slide">
                 <div class="showcase__card">
                   <div class="showcase__image">
-                    <img src="public/images/showcase/Vitliki.png" alt="Vitlíki landing page for Talgildu Føroyar with ocean gradient background, featuring 'Vitlíki fyri allar Føroyar' headline in Faroese and call-to-action buttons">
+                    <img src="public/images/showcase/Vitliki.webp" alt="Vitlíki landing page for Talgildu Føroyar with ocean gradient background, featuring 'Vitlíki fyri allar Føroyar' headline in Faroese and call-to-action buttons">
                   </div>
                   <div class="showcase__card-content">
                     <h3 class="showcase__card-title">Vitlíki</h3>
@@ -303,7 +315,7 @@
               <div class="showcase__slide">
                 <div class="showcase__card">
                   <div class="showcase__image">
-                    <img src="public/images/showcase/Tonik.png" alt="Tonik event landing page with vibrant purple and pink gradient, featuring large 'TONIK' typography and tagline 'Let's Ride THE NEXT WAVE' for the tech and art summit in Faroe Islands">
+                    <img src="public/images/showcase/Tonik.webp" alt="Tonik event landing page with vibrant purple and pink gradient, featuring large 'TONIK' typography and tagline 'Let's Ride THE NEXT WAVE' for the tech and art summit in Faroe Islands">
                   </div>
                   <div class="showcase__card-content">
                     <h3 class="showcase__card-title">Tonik</h3>
@@ -396,7 +408,10 @@
       
       <!-- Top: Brand and tagline -->
       <div class="footer__top">
-        <div class="footer__brand">Orlando Studio</div>
+        <div class="footer__brand">
+          <img src="public/images/TomatoFavicon2.png" alt="Orlando Studio" class="footer__brand-icon">
+          <span>rlando Studio</span>
+        </div>
         <p class="footer__tagline">
           AI-powered landing page design with professional results and personal touch
         </p>

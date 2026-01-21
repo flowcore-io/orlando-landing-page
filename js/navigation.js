@@ -5,12 +5,16 @@
  */
 
 class Navigation {
+  /**
+   * Create a new Navigation instance
+   * Initializes DOM element references and sets up event listeners
+   */
   constructor() {
     // DOM elements
     this.toggle = document.querySelector('.navbar__toggle');
-    this.navMenu = document.querySelector('.navbar__nav');
+    this.navMenu = document.querySelector('.navbar__menu');
     this.backdrop = document.querySelector('.navbar__backdrop');
-    this.navLinks = document.querySelectorAll('.navbar__link');
+    this.navLinks = document.querySelectorAll('.navbar__link, .navbar__menu .btn');
     this.body = document.body;
     
     this.init();
@@ -18,7 +22,7 @@ class Navigation {
   
   /**
    * Initialize navigation
-   * Sets up event listeners for menu toggle and links
+   * Sets up event listeners for menu toggle, backdrop clicks, nav links, and keyboard controls
    */
   init() {
     // Only initialize if elements exist
@@ -46,7 +50,8 @@ class Navigation {
   }
   
   /**
-   * Toggle menu open/closed
+   * Toggle menu between open and closed states
+   * Checks current state and calls appropriate method
    */
   toggleMenu() {
     const isOpen = this.isMenuOpen();
@@ -59,7 +64,8 @@ class Navigation {
   }
   
   /**
-   * Open mobile menu
+   * Open mobile navigation menu
+   * Updates aria-expanded attribute, adds active classes, and prevents body scrolling
    */
   openMenu() {
     this.toggle.setAttribute('aria-expanded', 'true');
@@ -69,7 +75,8 @@ class Navigation {
   }
   
   /**
-   * Close mobile menu
+   * Close mobile navigation menu
+   * Updates aria-expanded attribute, removes active classes, and restores body scrolling
    */
   closeMenu() {
     this.toggle.setAttribute('aria-expanded', 'false');
@@ -79,8 +86,8 @@ class Navigation {
   }
   
   /**
-   * Check if menu is currently open
-   * @returns {boolean}
+   * Check if mobile menu is currently open
+   * @returns {boolean} True if menu is open, false if closed
    */
   isMenuOpen() {
     return this.toggle.getAttribute('aria-expanded') === 'true';

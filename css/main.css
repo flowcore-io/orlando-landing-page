@@ -26,6 +26,7 @@
   /* Primary Colors - Dark Italian Artisan */
   --color-primary: #d4af37;              /* Warm gold accent */
   --color-tomato: #e76f51;               /* Warm tomato red-orange */
+  --color-tomato-dark: #d06048;          /* Darker tomato for hover states */
   --color-teal: #2a9d8f;                 /* Mediterranean teal */
   --color-olive: #6b7c59;                /* Olive green */
   
@@ -293,7 +294,7 @@ body::before {
   right: 0;
   bottom: 0;
   z-index: -1;
-  background-image: url('../public/images/tileable lemon and tomato painting pattern.png');
+  background-image: url('../public/images/tileable-lemon-and-tomato-painting-pattern.webp');
   background-repeat: repeat;
   background-size: 1400px 1400px;
   background-position: 0 0;

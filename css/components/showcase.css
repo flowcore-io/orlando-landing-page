@@ -61,6 +61,10 @@
   overflow: hidden;
   position: relative;
   cursor: grab;
+  user-select: none; /* Prevent text selection while dragging */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .showcase__viewport:active {
@@ -77,6 +81,12 @@
 /* Paused state using modifier */
 .showcase__track.showcase__track--paused {
   animation-play-state: paused !important;
+}
+
+/* Dragging state - remove animation temporarily */
+.showcase__track.showcase__track--dragging {
+  animation: none !important;
+  transition: none;
 }
 
 .showcase__slide {

@@ -86,7 +86,7 @@ class SignupForm {
   async mockSubmit(email) {
     return new Promise((resolve) => {
       setTimeout(() => {
-        console.log('Mock signup for:', email);
+        // Mock submission - in production, this would be an API call
         resolve();
       }, 800); // Simulate network delay
     });

@@ -17,7 +17,7 @@ This is the official landing page for Orlando Studio, built using vanilla HTML, 
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-org/orlando-landing-page.git
+   git clone https://github.com/flowcore-io/orlando-landing-page.git
    cd orlando-landing-page
    ```
 
@@ -145,8 +145,7 @@ This site is deployed via GitHub Pages:
 ### Custom Domain
 
 The site uses a custom domain configured via `CNAME` file:
-- Domain: `orlando.studio`
-- Alternative: `orlando.usable.dev`
+- Domain: `orlando.usable.dev`
 
 ## 📝 Development Guidelines
 
@@ -221,9 +220,9 @@ Copyright © 2025 Orlando Studio. All rights reserved.
 
 ## 🔗 Links
 
-- **Live Site**: [orlando.studio](https://orlando.studio)
+- **Live Site**: [orlando.usable.dev](https://orlando.usable.dev)
 - **Usable Platform**: [usable.dev](https://usable.dev)
-- **Contact**: [info@orlando.studio](mailto:info@orlando.studio)
+- **Contact**: [Contact via Usable](https://usable.dev)
 
 ---
 

@@ -7,14 +7,14 @@
   <meta name="keywords" content="landing page, web design, AI design, Orlando Studio, Usable">
   
   <!-- Canonical URL -->
-  <link rel="canonical" href="https://orlando.studio/">
+  <link rel="canonical" href="https://orlando.usable.dev/">
   
   <!-- Open Graph / Social Media -->
   <meta property="og:title" content="Orlando Studio - Professional Landing Pages">
   <meta property="og:description" content="AI-powered landing page design with professional results and personal touch.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://orlando.studio/">
-  <meta property="og:image" content="https://orlando.studio/public/images/og-image.png">
+  <meta property="og:url" content="https://orlando.usable.dev/">
+  <meta property="og:image" content="https://orlando.usable.dev/public/images/og-image.webp">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Orlando Studio - Professional Landing Page Design">
@@ -51,7 +51,7 @@
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Orlando Studio",
-    "url": "https://orlando.studio/",
+    "url": "https://orlando.usable.dev/",
     "description": "AI-powered landing page design with professional results and personal touch",
     "foundingDate": "2025",
     "founders": [{
@@ -149,7 +149,9 @@
           
           <!-- CTA Box -->
           <div class="hero__form" id="signup">
-            <h2 class="hero__form-heading">Try Orlando Studio Now</h2>
+            <h2 class="hero__form-heading" aria-describedby="hero-form-footnote">
+              Try Orlando Studio Now<span class="hero__form-asterisk" aria-hidden="true">*</span>
+            </h2>
             <p class="hero__form-note">
               An early version is available — experience AI-powered landing page design
             </p>
@@ -158,6 +160,10 @@
                 Launch Studio
               </a>
             </div>
+            <p class="hero__form-footnote" id="hero-form-footnote">
+              <span class="hero__form-asterisk" aria-hidden="true">*</span>
+              Orlando Studio is in early access, so things may still feel a little wonky. Your <a href="mailto:usable@usable.dev?subject=Feedback%20for%20Orlando%20Studio" class="hero__form-footnote-link">feedback</a> helps shape what comes next.
+            </p>
           </div>
           
         </div>
@@ -330,6 +336,7 @@
         
         <!-- Section heading -->
         <div class="demo__heading">
+          <span class="badge badge--primary demo__badge">Coming Soon</span>
           <h2 class="demo__title" id="demo-title">Try Orlando Studio</h2>
           <p class="demo__subtitle">
             A lite preview of Orlando's design capabilities

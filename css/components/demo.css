@@ -16,6 +16,10 @@
   margin: 0 auto var(--space-4xl);
 }
 
+.demo__badge {
+  margin-bottom: var(--space-md);
+}
+
 .demo__title {
   font-size: var(--font-size-h1);
   margin-bottom: var(--space-lg);

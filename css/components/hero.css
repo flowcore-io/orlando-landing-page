@@ -107,6 +107,12 @@
     font-size: var(--font-size-small);
     margin-bottom: var(--space-md);
   }
+
+  .hero__form-footnote {
+    font-size: var(--font-size-tiny);
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
+  }
 }
 
 /* Ultra-Small Mobile Devices (up to 640px) - Compact but comfortable */
@@ -130,6 +136,13 @@
     font-size: var(--font-size-tiny);
     line-height: var(--line-height-normal);
     margin-bottom: var(--space-sm);
+  }
+
+  .hero__form-footnote {
+    font-size: var(--font-size-tiny);
+    line-height: var(--line-height-normal);
+    margin-top: var(--space-md);
+    padding-top: var(--space-sm);
   }
   
   .hero__form form {
@@ -195,6 +208,40 @@
   margin: 0 0 var(--space-xl) 0;
   text-align: center;
   line-height: var(--line-height-relaxed);
+}
+
+.hero__form-asterisk {
+  color: var(--color-tomato);
+  margin-left: 0.15em;
+  font-weight: var(--font-semibold);
+}
+
+.hero__form-footnote {
+  margin: var(--space-xl) 0 0 0;
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-border-tomato);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-tiny);
+  font-style: italic;
+  line-height: var(--line-height-relaxed);
+  text-align: center;
+  opacity: 0.75;
+}
+
+.hero__form-footnote .hero__form-asterisk {
+  margin-right: 0.25em;
+  margin-left: 0;
+}
+
+.hero__form-footnote-link {
+  color: var(--color-text-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.hero__form-footnote-link:hover,
+.hero__form-footnote-link:focus-visible {
+  color: var(--color-tomato);
 }
 
 .hero__form form {

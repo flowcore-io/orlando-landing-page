@@ -269,6 +269,43 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+
+  /* Firefox scrollbar styling — thin rail, olive thumb on a transparent
+     track so the page surface shows through. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-olive-30) transparent;
+}
+
+/* ============================================
+   SCROLLBAR STYLING (WebKit — Chromium, Safari, Edge)
+   Subtle olive thumb with a tomato accent on hover so the chrome
+   matches the Italian trattoria palette instead of the browser default.
+   The 2px transparent border + padding-box clip creates a slimmer
+   visible thumb with a little breathing room at the edges.
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-olive-30);
+  border-radius: var(--radius-full);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-tomato-40);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 body {

@@ -327,32 +327,278 @@
     </section>
 
     <!-- ============================================
-         DEMO SECTION - Interactive demo placeholder
-         BEM: demo, demo__heading, demo__placeholder
-         Uses .card--dashed modifier
+         DEMO SECTION - Interactive chat-driven preview
+         BEM: demo, demo__heading, demo__interactive, demo__chat, demo__preview, mini-site
+         Scripted intent parser + live preview (see js/demo.js)
          ============================================ -->
     <section class="demo" id="demo" aria-labelledby="demo-title">
       <div class="container">
         
         <!-- Section heading -->
         <div class="demo__heading">
-          <span class="badge badge--primary demo__badge">Coming Soon</span>
           <h2 class="demo__title" id="demo-title">Try Orlando Studio</h2>
           <p class="demo__subtitle">
-            A lite preview of Orlando's design capabilities
+            Chat with Orlando to restyle a little Italian landing page — change the palette, typography, and spacing through natural conversation.
           </p>
         </div>
-        
-        <!-- Demo placeholder -->
-        <div class="demo__placeholder">
-          <div class="card card--dashed">
-            <p class="card__description">
-              An interactive demo is in development where you can chat with Orlando to customize a premade landing page template. Make design changes, adjust colors and spacing, or refine typography — all through natural conversation.
-            </p>
-            <p class="card__quote">
-              "A small taste of what Orlando can do"
-            </p>
+
+        <!-- Interactive demo: chat panel + live preview -->
+        <div class="demo__interactive" data-demo>
+
+          <!-- Chat column -->
+          <div class="demo__chat" aria-label="Chat with Orlando">
+            <header class="demo__chat-header">
+              <img
+                class="demo__chat-avatar"
+                src="public/images/TomatoFavicon2.png"
+                alt=""
+                aria-hidden="true"
+              >
+              <div class="demo__chat-identity">
+                <p class="demo__chat-name">Orlando Demo</p>
+              </div>
+            </header>
+
+            <div
+              class="demo__chat-messages"
+              data-demo-messages
+              role="log"
+              aria-live="polite"
+              aria-label="Conversation history"
+            ></div>
+
+            <div class="demo__chat-suggestions" id="demo-chat-suggestions" data-demo-suggestions aria-label="Suggested prompts">
+              <button type="button" class="demo__chat-chip" data-demo-suggestion="make it warmer">make it warmer</button>
+              <button type="button" class="demo__chat-chip" data-demo-suggestion="go rosa">go rosa</button>
+              <button type="button" class="demo__chat-chip" data-demo-suggestion="candlelit notte">candlelit notte</button>
+              <button type="button" class="demo__chat-chip" data-demo-suggestion="stack the menu">stack the menu</button>
+              <button type="button" class="demo__chat-chip" data-demo-suggestion="full menu">full menu</button>
+              <button type="button" class="demo__chat-chip" data-demo-suggestion="roomier spacing">roomier spacing</button>
+              <button type="button" class="demo__chat-chip" data-demo-suggestion="surprise me">surprise me</button>
+            </div>
+
+            <!-- Disclosure control for the chip row. Hidden while the chips
+                 are visible; appears as a small pull-tab above the input
+                 once they've collapsed. aria-expanded tracks the chip state. -->
+            <button
+              type="button"
+              class="demo__chat-toggle"
+              data-demo-toggle-suggestions
+              aria-expanded="true"
+              aria-controls="demo-chat-suggestions"
+              aria-label="Show suggested prompts"
+            >
+              <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" focusable="false">
+                <path d="M3 7.5l3-3 3 3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <form class="demo__chat-form" data-demo-form autocomplete="off" novalidate>
+              <label class="demo__chat-label" for="demo-input">Message Orlando</label>
+              <div class="demo__chat-input-group">
+                <input
+                  id="demo-input"
+                  class="demo__chat-input"
+                  type="text"
+                  placeholder="Try: make it warmer"
+                  data-demo-input
+                  aria-describedby="demo-input-hint"
+                >
+                <button type="submit" class="demo__chat-send" aria-label="Send message to Orlando">
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
+              <p class="demo__chat-hint" id="demo-input-hint">
+                Orlando understands palettes, typography, spacing, and simple rename requests.
+              </p>
+            </form>
           </div>
+
+          <!-- Preview column -->
+          <div class="demo__preview" aria-label="Live landing page preview">
+            <div class="demo__preview-chrome" aria-hidden="true">
+              <span class="demo__preview-dot"></span>
+              <span class="demo__preview-dot"></span>
+              <span class="demo__preview-dot"></span>
+              <span class="demo__preview-url">trattoria-bella.it</span>
+            </div>
+
+            <div class="demo__preview-frame">
+              <article
+                class="mini-site"
+                data-demo-preview
+                data-palette="tomato"
+                data-font="serif"
+                data-menu="grid"
+                data-hero="center"
+                data-dish="stacked"
+                aria-label="Trattoria Bella preview"
+              >
+                <header class="mini-site__hero">
+                  <p class="mini-site__eyebrow">Ristorante · Dal 1962</p>
+                  <h3 class="mini-site__title" data-demo-title>Trattoria Bella</h3>
+                  <p class="mini-site__subtitle">
+                    Cucina casalinga, ingredienti della terra, vino sincero.
+                  </p>
+                  <span class="mini-site__cta" role="presentation">Prenota un tavolo</span>
+                </header>
+
+                <section
+                  class="mini-site__course"
+                  data-course="starters"
+                  aria-labelledby="mini-site-course-antipasti"
+                  hidden
+                >
+                  <h4 class="mini-site__course-heading" id="mini-site-course-antipasti">Antipasti</h4>
+                  <div class="mini-site__menu">
+                    <article class="mini-site__dish">
+                      <img
+                        class="mini-site__dish-image"
+                        src="public/images/interactive%20demo/Bruschetta%20al%20Pomodoro.png"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      >
+                      <div class="mini-site__dish-body">
+                        <h4 class="mini-site__dish-name">Bruschetta al Pomodoro</h4>
+                        <p class="mini-site__dish-note">Grilled sourdough, heirloom tomato, fresh basil</p>
+                      </div>
+                    </article>
+                    <article class="mini-site__dish">
+                      <img
+                        class="mini-site__dish-image"
+                        src="public/images/interactive%20demo/Burrata%20con%20Prosciutto.png"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      >
+                      <div class="mini-site__dish-body">
+                        <h4 class="mini-site__dish-name">Burrata con Prosciutto</h4>
+                        <p class="mini-site__dish-note">Pugliese burrata, San Daniele, grilled peach</p>
+                      </div>
+                    </article>
+                    <article class="mini-site__dish">
+                      <img
+                        class="mini-site__dish-image"
+                        src="public/images/interactive%20demo/Carpaccio%20di%20Manzo.png"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      >
+                      <div class="mini-site__dish-body">
+                        <h4 class="mini-site__dish-name">Carpaccio di Manzo</h4>
+                        <p class="mini-site__dish-note">Thin-sliced beef, arugula, shaved parmigiano</p>
+                      </div>
+                    </article>
+                  </div>
+                </section>
+
+                <section
+                  class="mini-site__course"
+                  data-course="mains"
+                  aria-labelledby="mini-site-course-secondi"
+                >
+                  <h4 class="mini-site__course-heading" id="mini-site-course-secondi">Secondi</h4>
+                  <div class="mini-site__menu">
+                    <article class="mini-site__dish">
+                      <img
+                        class="mini-site__dish-image"
+                        src="public/images/interactive%20demo/Pappardelle%20al%20Cinghiale.png"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      >
+                      <div class="mini-site__dish-body">
+                        <h4 class="mini-site__dish-name">Pappardelle al Cinghiale</h4>
+                        <p class="mini-site__dish-note">Slow-braised wild boar, hand-cut ribbons of pasta</p>
+                      </div>
+                    </article>
+                    <article class="mini-site__dish">
+                      <img
+                        class="mini-site__dish-image"
+                        src="public/images/interactive%20demo/Risotto%20al%20Limone.png"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      >
+                      <div class="mini-site__dish-body">
+                        <h4 class="mini-site__dish-name">Risotto al Limone</h4>
+                        <p class="mini-site__dish-note">Amalfi lemon, parmigiano, a whisper of mint</p>
+                      </div>
+                    </article>
+                    <article class="mini-site__dish">
+                      <img
+                        class="mini-site__dish-image"
+                        src="public/images/interactive%20demo/Ossobuco%20alla%20Milanese.png"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      >
+                      <div class="mini-site__dish-body">
+                        <h4 class="mini-site__dish-name">Ossobuco alla Milanese</h4>
+                        <p class="mini-site__dish-note">Saffron risotto and bright gremolata</p>
+                      </div>
+                    </article>
+                  </div>
+                </section>
+
+                <section
+                  class="mini-site__course"
+                  data-course="desserts"
+                  aria-labelledby="mini-site-course-dolci"
+                  hidden
+                >
+                  <h4 class="mini-site__course-heading" id="mini-site-course-dolci">Dolci</h4>
+                  <div class="mini-site__menu">
+                    <article class="mini-site__dish">
+                      <img
+                        class="mini-site__dish-image"
+                        src="public/images/interactive%20demo/Tiramis%C3%B9%20della%20Casa.png"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      >
+                      <div class="mini-site__dish-body">
+                        <h4 class="mini-site__dish-name">Tiramisù della Casa</h4>
+                        <p class="mini-site__dish-note">Mascarpone, espresso, savoiardi, cocoa</p>
+                      </div>
+                    </article>
+                    <article class="mini-site__dish">
+                      <img
+                        class="mini-site__dish-image"
+                        src="public/images/interactive%20demo/Panna%20Cotta%20al%20Limone.png"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      >
+                      <div class="mini-site__dish-body">
+                        <h4 class="mini-site__dish-name">Panna Cotta al Limone</h4>
+                        <p class="mini-site__dish-note">Amalfi lemon cream, shortbread crumb</p>
+                      </div>
+                    </article>
+                    <article class="mini-site__dish">
+                      <img
+                        class="mini-site__dish-image"
+                        src="public/images/interactive%20demo/Cannoli%20Siciliani.png"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      >
+                      <div class="mini-site__dish-body">
+                        <h4 class="mini-site__dish-name">Cannoli Siciliani</h4>
+                        <p class="mini-site__dish-note">Fresh ricotta, candied orange, pistachio</p>
+                      </div>
+                    </article>
+                  </div>
+                </section>
+
+                <footer class="mini-site__footer">
+                  Via dei Giardini 12 · Milano
+                </footer>
+              </article>
+            </div>
+          </div>
+
         </div>
         
       </div>
@@ -425,6 +671,9 @@
   <script src="js/navigation.js" defer></script>
   <script src="js/carousel.js" defer></script>
   <script src="js/signup.js" defer></script>
+  <script src="js/demo-parser.js" defer></script>
+  <script src="js/demo-preview.js" defer></script>
+  <script src="js/demo.js" defer></script>
   
 </body>
 </html>

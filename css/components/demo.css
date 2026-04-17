@@ -1,7 +1,7 @@
 /**
  * Orlando Studio - Demo Section Component
- * Interactive demo placeholder
- * BEM: demo, demo__heading, demo__placeholder
+ * Interactive chat-driven landing page preview
+ * BEM: demo, demo__heading, demo__interactive, demo__chat, demo__preview, mini-site
  */
 
 .demo {
@@ -9,15 +9,17 @@
   backdrop-filter: blur(10px);
 }
 
-.demo__heading {
-  /* Orlando Note: Could use .section-heading + .max-w-700 utilities in HTML */
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto var(--space-4xl);
+/* Scoped container override: the rest of the landing page reads best at the
+   default narrow container widths, but the demo is a two-column window that
+   benefits from more breathing room on large monitors. */
+.demo .container {
+  max-width: 1280px;
 }
 
-.demo__badge {
-  margin-bottom: var(--space-md);
+.demo__heading {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto var(--space-3xl);
 }
 
 .demo__title {
@@ -29,31 +31,716 @@
   font-size: var(--font-size-h3);
   color: var(--color-text-secondary);
   font-weight: var(--font-normal);
+  line-height: var(--line-height-relaxed);
 }
 
-.demo__placeholder {
-  /* Orlando Note: Could use .max-w-1000 utility in HTML */
-  max-width: 1000px;
+/* ============================================
+   INTERACTIVE LAYOUT
+   Chat panel + live preview panel
+   ============================================ */
+
+.demo__interactive {
+  display: grid;
+  /* Preview takes the dominant share — it's the hero of this component —
+     while the chat stays readable at ~360-400px. */
+  grid-template-columns: minmax(340px, 1fr) minmax(520px, 1.7fr);
+  /* Zero gap + no padding so the two columns conjoin inside the
+     outer window, separated only by a hairline divider (see .demo__preview). */
+  gap: 0;
+  /* Bounded height so the chat column scrolls internally instead of
+     pushing the whole section taller with each new message. */
+  height: clamp(600px, 74vh, 760px);
+  background: var(--color-surface-95);
+  border: 1px solid var(--color-border-tomato);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-hero);
+  backdrop-filter: blur(20px);
+  /* Clip the inner panels to the outer radius. */
+  overflow: hidden;
+}
+
+/* ============================================
+   CHAT PANEL
+   ============================================ */
+
+.demo__chat {
+  /* No border, background, or radius — the chat is one section of the
+     outer window, not a nested card. */
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.demo__chat-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-surface-95);
+  border-bottom: 1px solid var(--color-olive-15);
+}
+
+.demo__chat-avatar {
+  display: block;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.demo__chat-identity {
+  display: flex;
+  flex-direction: column;
+  line-height: var(--line-height-tight);
+}
+
+.demo__chat-name {
+  margin: 0;
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-body);
+}
+
+.demo__chat-messages {
+  flex: 1;
+  min-height: 0;
+  padding: var(--space-lg);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  scroll-behavior: smooth;
+}
+
+.demo__chat-message {
+  max-width: 85%;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-relaxed);
+  word-wrap: break-word;
+}
+
+.demo__chat-message--orlando {
+  align-self: flex-start;
+  background: var(--color-surface-95);
+  border: 1px solid var(--color-olive-15);
+  color: var(--color-text-primary);
+  border-top-left-radius: var(--radius-sm);
+}
+
+.demo__chat-message--user {
+  align-self: flex-end;
+  background: var(--color-tomato);
+  color: var(--color-text-primary);
+  border-top-right-radius: var(--radius-sm);
+}
+
+.demo__chat-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  padding: 0 var(--space-lg) var(--space-md);
+  /* Collapsible: the chips serve as onboarding and step aside once the
+     user starts interacting. max-height is animated to 0 and opacity
+     fades out. A generous starting max-height covers any chip wrap. */
+  max-height: 20rem;
+  overflow: hidden;
+  transition:
+    max-height var(--transition-normal),
+    opacity var(--transition-normal),
+    padding-bottom var(--transition-normal);
+}
+
+.demo__chat-suggestions--hidden {
+  max-height: 0;
+  opacity: 0;
+  padding-bottom: 0;
+}
+
+/* Small pull-tab that re-opens the chip row once it's collapsed.
+   Uses aria-expanded to drive both visibility and semantics:
+     aria-expanded="true"  → chips visible, toggle collapsed
+     aria-expanded="false" → chips hidden,  toggle visible */
+.demo__chat-toggle {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-xs);
+  padding: 0.25rem 0.75rem;
+  background: var(--color-olive-10);
+  border: 1px solid var(--color-olive-20);
+  border-radius: var(--radius-full);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  overflow: hidden;
+  max-height: 2rem;
+  transition:
+    max-height var(--transition-normal),
+    margin var(--transition-normal),
+    opacity var(--transition-normal),
+    padding var(--transition-normal),
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.demo__chat-toggle:hover,
+.demo__chat-toggle:focus-visible {
+  background: var(--color-tomato-15);
+  border-color: var(--color-tomato-30);
+  color: var(--color-text-primary);
+  outline: none;
+}
+
+/* Collapsed: chips are already visible, so the toggle fades away and
+   stops occupying vertical space. */
+.demo__chat-toggle[aria-expanded="true"] {
+  max-height: 0;
   margin: 0 auto;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  pointer-events: none;
 }
 
-/* Responsive adjustments */
+.demo__chat-chip {
+  padding: var(--space-xs) var(--space-md);
+  background: var(--color-olive-10);
+  border: 1px solid var(--color-olive-20);
+  border-radius: var(--radius-full);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-tiny);
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.demo__chat-chip:hover,
+.demo__chat-chip:focus-visible {
+  background: var(--color-tomato-15);
+  border-color: var(--color-tomato-30);
+  color: var(--color-text-primary);
+  outline: none;
+}
+
+.demo__chat-form {
+  padding: var(--space-md) var(--space-lg) var(--space-lg);
+  border-top: 1px solid var(--color-olive-15);
+  background: var(--color-surface-95);
+}
+
+.demo__chat-label {
+  /* Visually hidden, accessible to screen readers */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.demo__chat-input-group {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: stretch;
+}
+
+.demo__chat-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-surface-light-100);
+  border: 1px solid var(--color-olive-20);
+  border-radius: var(--radius);
+  color: var(--color-text-primary);
+  font-family: inherit;
+  font-size: var(--font-size-small);
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.demo__chat-input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.demo__chat-input:focus-visible {
+  outline: none;
+  border-color: var(--color-tomato);
+  background: var(--color-surface-light-100);
+}
+
+.demo__chat-send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 var(--space-md);
+  background: var(--color-tomato);
+  color: var(--color-text-primary);
+  border: none;
+  border-radius: var(--radius);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.demo__chat-send:hover,
+.demo__chat-send:focus-visible {
+  background: var(--color-tomato-dark);
+  outline: none;
+}
+
+.demo__chat-send:active {
+  transform: scale(0.96);
+}
+
+.demo__chat-hint {
+  margin: var(--space-sm) 0 0;
+  font-size: var(--font-size-tiny);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+/* ============================================
+   PREVIEW PANEL
+   ============================================ */
+
+.demo__preview {
+  /* No enclosing box — a single hairline separates the preview from the
+     chat column so they read as one conjoined window. */
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-left: 1px solid var(--color-olive-15);
+}
+
+.demo__preview-chrome {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-surface-95);
+  border-bottom: 1px solid var(--color-olive-15);
+}
+
+.demo__preview-dot {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: var(--radius-full);
+  background: var(--color-olive-30);
+}
+
+.demo__preview-dot:nth-child(1) { background: var(--color-tomato); }
+.demo__preview-dot:nth-child(2) { background: var(--color-olive); }
+.demo__preview-dot:nth-child(3) { background: var(--color-olive-30); }
+
+.demo__preview-url {
+  margin-left: var(--space-sm);
+  font-family: 'Courier New', monospace;
+  font-size: var(--font-size-tiny);
+  color: var(--color-text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.demo__preview-frame {
+  flex: 1;
+  min-height: 0;
+  padding: var(--space-lg);
+  overflow-y: auto;
+  /* The mini-site sits at the top and grows with its own content —
+     no flex stretch, no forced vertical fill that would leave a gap
+     between the hero and the menu. */
+}
+
+/* ============================================
+   MINI-SITE COMPONENT (Trattoria Bella)
+   Scoped CSS custom properties for live theming
+   ============================================ */
+
+/* The global stylesheet sets `section { padding: var(--space-4xl) 0 }`
+   (128–192px top/bottom) for the landing page's outer sections. The
+   mini-site uses <section> for its menu, which was inheriting that
+   page-scale rhythm and adding hundreds of px of empty space above and
+   below the dishes. Reset it here so every inner section sizes to its
+   own content. */
+.mini-site section {
+  padding: 0;
+}
+
+.mini-site {
+  /* Default palette: tomato */
+  --mini-primary: #c8553d;
+  --mini-primary-ink: #fff8ef;
+  --mini-accent: #e0b85c;
+  --mini-surface: #fff5e6;
+  --mini-surface-soft: #fbe9cf;
+  --mini-text: #3a241a;
+  --mini-text-soft: #6b4a3a;
+  --mini-border: rgba(58, 36, 26, 0.12);
+
+  /* Typography */
+  --mini-font-body: 'Georgia', 'Times New Roman', serif;
+  --mini-font-display: 'Georgia', 'Times New Roman', serif;
+
+  /* Scalable knobs */
+  --mini-title-scale: 1;
+  --mini-body-scale: 1;
+  --mini-space-scale: 1;
+
+  width: 100%;
+  padding: calc(var(--space-lg) * var(--mini-space-scale)) calc(var(--space-lg) * var(--mini-space-scale));
+  background: var(--mini-surface);
+  color: var(--mini-text);
+  font-family: var(--mini-font-body);
+  border-radius: var(--radius);
+  border: 1px solid var(--mini-border);
+  transition:
+    background-color var(--transition-normal),
+    color var(--transition-normal),
+    padding var(--transition-normal);
+}
+
+/* Palette variants */
+.mini-site[data-palette="olive"] {
+  --mini-primary: #6b7c59;
+  --mini-primary-ink: #f4f1e4;
+  --mini-accent: #c8a355;
+  --mini-surface: #f4f1e4;
+  --mini-surface-soft: #e8e3ce;
+  --mini-text: #2d3325;
+  --mini-text-soft: #5a6348;
+  --mini-border: rgba(45, 51, 37, 0.12);
+}
+
+.mini-site[data-palette="lemon"] {
+  --mini-primary: #d4a24c;
+  --mini-primary-ink: #3d2e10;
+  --mini-accent: #c8553d;
+  --mini-surface: #fffaea;
+  --mini-surface-soft: #fff1c9;
+  --mini-text: #3d2e10;
+  --mini-text-soft: #6b5320;
+  --mini-border: rgba(61, 46, 16, 0.12);
+}
+
+.mini-site[data-palette="seaside"] {
+  --mini-primary: #2e6b7c;
+  --mini-primary-ink: #eef5f7;
+  --mini-accent: #e76f51;
+  --mini-surface: #eef5f7;
+  --mini-surface-soft: #d8e8ec;
+  --mini-text: #1a2f35;
+  --mini-text-soft: #476d76;
+  --mini-border: rgba(26, 47, 53, 0.12);
+}
+
+/* Rosa: bougainvillea pinks with a warm brass accent — romantic but grounded. */
+.mini-site[data-palette="rosa"] {
+  --mini-primary: #c96a7a;
+  --mini-primary-ink: #fff5f7;
+  --mini-accent: #c8a355;
+  --mini-surface: #fdf3f4;
+  --mini-surface-soft: #f5d7dc;
+  --mini-text: #3a1f24;
+  --mini-text-soft: #6b4046;
+  --mini-border: rgba(58, 31, 36, 0.12);
+}
+
+/* Notte: candlelit evening trattoria — deep umber with warm gold for a
+   late-dinner feel. Dark surfaces keep typography and the accent button
+   carrying the composition. */
+.mini-site[data-palette="notte"] {
+  --mini-primary: #e0b85c;
+  --mini-primary-ink: #1a1712;
+  --mini-accent: #c8553d;
+  --mini-surface: #1a1712;
+  --mini-surface-soft: #2b2419;
+  --mini-text: #f4e8d0;
+  --mini-text-soft: #c0b093;
+  --mini-border: rgba(244, 232, 208, 0.14);
+}
+
+/* Font family variants */
+.mini-site[data-font="serif"] {
+  --mini-font-body: 'Georgia', 'Times New Roman', serif;
+  --mini-font-display: 'Georgia', 'Times New Roman', serif;
+}
+
+.mini-site[data-font="sans"] {
+  --mini-font-body: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  --mini-font-display: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+}
+
+.mini-site[data-font="modern"] {
+  --mini-font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --mini-font-display: 'Inter', system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* ============================================
+   LAYOUT VARIANTS
+   Each variant toggles via a data attribute on .mini-site.
+   Defaults (data-menu="grid", data-hero="center", data-dish="stacked")
+   match the base component styling below, so variant rules only need
+   to override what differs.
+   ============================================ */
+
+/* Menu: single-column list, dish cards stack top-to-bottom. */
+.mini-site[data-menu="list"] .mini-site__menu {
+  grid-template-columns: 1fr;
+}
+
+/* Menu: two wider cards — more presence per dish. */
+.mini-site[data-menu="gallery"] .mini-site__menu {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* Hero: left-aligned — editorial instead of postcard. */
+.mini-site[data-hero="left"] .mini-site__hero {
+  text-align: left;
+}
+
+/* The `hidden` HTML attribute normally applies `display: none` via the
+   browser's user-agent stylesheet, but any author-level `display: grid`
+   or `display: flex` on a class (e.g. `.mini-site__menu`) wins. These
+   explicit overrides re-enable `hidden` on the course sections so chat
+   intents can toggle mains/antipasti/dolci visibility. */
+.mini-site__menu[hidden],
+.mini-site__course[hidden] {
+  display: none;
+}
+
+/* Antipasti and Dolci: same dish-card grid as the mains, just wrapped
+   with a small uppercase course heading. All three courses share the
+   `.mini-site__menu` grid and `.mini-site__dish` card classes so every
+   layout variant (list/gallery, inline dishes, etc.) applies uniformly. */
+.mini-site__course {
+  margin-bottom: calc(var(--space-lg) * var(--mini-space-scale));
+}
+
+.mini-site__course-heading {
+  margin: 0 0 calc(var(--space-sm) * var(--mini-space-scale));
+  text-align: center;
+  font-family: var(--mini-font-display);
+  font-size: calc(0.75rem * var(--mini-body-scale));
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mini-text-soft);
+}
+
+/* The outer `.mini-site__menu` has its own margin-bottom to separate it
+   from the footer when it's a top-level section. Inside a course
+   wrapper the course carries the spacing, so zero out the inner menu
+   margin to avoid doubling the gap between courses. */
+.mini-site__course .mini-site__menu {
+  margin-bottom: 0;
+}
+
+/* Dish cards: horizontal (photo left, text right) — café menu card feel. */
+.mini-site[data-dish="inline"] .mini-site__dish {
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.mini-site[data-dish="inline"] .mini-site__dish-image {
+  width: 38%;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  border-bottom: none;
+  border-right: 1px solid var(--mini-border);
+}
+
+.mini-site[data-dish="inline"] .mini-site__dish-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mini-site__hero {
+  text-align: center;
+  padding-bottom: calc(var(--space-lg) * var(--mini-space-scale));
+  margin-bottom: calc(var(--space-lg) * var(--mini-space-scale));
+  border-bottom: 1px solid var(--mini-border);
+}
+
+.mini-site__eyebrow {
+  margin: 0 0 calc(var(--space-sm) * var(--mini-space-scale));
+  font-family: var(--mini-font-body);
+  font-size: calc(0.75rem * var(--mini-body-scale));
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--mini-text-soft);
+}
+
+.mini-site__title {
+  margin: 0 0 calc(var(--space-sm) * var(--mini-space-scale));
+  font-family: var(--mini-font-display);
+  font-size: calc(1.75rem * var(--mini-title-scale));
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--mini-primary);
+  letter-spacing: -0.01em;
+}
+
+.mini-site__subtitle {
+  margin: 0 0 calc(var(--space-md) * var(--mini-space-scale));
+  font-family: var(--mini-font-body);
+  font-size: calc(0.9375rem * var(--mini-body-scale));
+  line-height: 1.45;
+  color: var(--mini-text-soft);
+  font-style: italic;
+}
+
+.mini-site__cta {
+  display: inline-block;
+  padding: calc(var(--space-sm) * var(--mini-space-scale)) calc(var(--space-xl) * var(--mini-space-scale));
+  background: var(--mini-primary);
+  color: var(--mini-primary-ink);
+  font-family: var(--mini-font-display);
+  font-size: calc(0.875rem * var(--mini-body-scale));
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+}
+
+.mini-site__menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: calc(var(--space-sm) * var(--mini-space-scale));
+  margin-bottom: calc(var(--space-lg) * var(--mini-space-scale));
+}
+
+.mini-site__dish {
+  display: flex;
+  flex-direction: column;
+  background: var(--mini-surface-soft);
+  border-top: 3px solid var(--mini-accent);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.mini-site__dish-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  /* The image carries the accent up through the card; a very subtle
+     bottom hairline separates it from the text body. */
+  border-bottom: 1px solid var(--mini-border);
+}
+
+.mini-site__dish-body {
+  padding: calc(var(--space-sm) * var(--mini-space-scale)) calc(var(--space-md) * var(--mini-space-scale));
+}
+
+.mini-site__dish-name {
+  margin: 0 0 calc(var(--space-xs) * var(--mini-space-scale));
+  font-family: var(--mini-font-display);
+  font-size: calc(0.9375rem * var(--mini-body-scale));
+  font-weight: 600;
+  color: var(--mini-text);
+  line-height: 1.25;
+}
+
+.mini-site__dish-note {
+  margin: 0;
+  font-family: var(--mini-font-body);
+  font-size: calc(0.75rem * var(--mini-body-scale));
+  color: var(--mini-text-soft);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.mini-site__footer {
+  padding-top: calc(var(--space-sm) * var(--mini-space-scale));
+  border-top: 1px solid var(--mini-border);
+  text-align: center;
+  font-family: var(--mini-font-body);
+  font-size: calc(0.75rem * var(--mini-body-scale));
+  color: var(--mini-text-soft);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 900px) {
+  .demo__interactive {
+    grid-template-columns: 1fr;
+    /* Release the desktop height cap when the layout stacks —
+       the chat gets its own max-height below, and the preview flows naturally. */
+    height: auto;
+  }
+
+  .demo__chat,
+  .demo__preview {
+    min-height: auto;
+  }
+
+  .demo__preview {
+    /* Divider moves from the left edge to the top when columns stack. */
+    border-left: none;
+    border-top: 1px solid var(--color-olive-15);
+  }
+
+  .demo__chat-messages {
+    max-height: 320px;
+  }
+
+  .demo__preview-frame {
+    padding: var(--space-md);
+  }
+}
+
 @media (max-width: 768px) {
   .demo__title {
     font-size: var(--font-size-h2);
   }
-  
+
   .demo__subtitle {
     font-size: var(--font-size-body);
   }
-  
+
   .demo__heading {
-    margin-bottom: var(--space-3xl);
+    margin-bottom: var(--space-2xl);
+  }
+
+  .mini-site__title {
+    font-size: calc(1.5rem * var(--mini-title-scale));
   }
 }
 
 @media (max-width: 480px) {
-  .demo__heading {
-    margin-bottom: var(--space-2xl);
+  .demo__interactive {
+    border-radius: var(--radius-lg);
+  }
+
+  .demo__chat-messages {
+    padding: var(--space-md);
+    max-height: 260px;
+  }
+
+  .demo__chat-suggestions {
+    padding: 0 var(--space-md) var(--space-sm);
+  }
+
+  .demo__chat-form {
+    padding: var(--space-sm) var(--space-md) var(--space-md);
+  }
+
+  .mini-site {
+    padding: var(--space-lg) var(--space-md);
   }
 }

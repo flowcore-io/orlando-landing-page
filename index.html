@@ -336,9 +336,9 @@
         
         <!-- Section heading -->
         <div class="demo__heading">
-          <h2 class="demo__title" id="demo-title">Try Orlando Studio</h2>
+          <h2 class="demo__title" id="demo-title">Try the interactive Orlando demo</h2>
           <p class="demo__subtitle">
-            Chat with Orlando to restyle a little Italian landing page — change the palette, typography, and spacing through natural conversation.
+            Type a message in the chat below and watch Orlando restyle this little Italian landing page in real time. Change the palette, typography, spacing, or layout — all through natural conversation, no buttons to hunt for.
           </p>
         </div>
 
@@ -355,7 +355,10 @@
                 aria-hidden="true"
               >
               <div class="demo__chat-identity">
-                <p class="demo__chat-name">Orlando Demo</p>
+                <p class="demo__chat-name">
+                  <span class="demo__chat-status-dot" aria-hidden="true"></span>
+                  Orlando Demo
+                </p>
               </div>
             </header>
 
@@ -368,7 +371,7 @@
             ></div>
 
             <div class="demo__chat-suggestions" id="demo-chat-suggestions" data-demo-suggestions aria-label="Suggested prompts">
-              <button type="button" class="demo__chat-chip" data-demo-suggestion="make it warmer">make it warmer</button>
+              <button type="button" class="demo__chat-chip" data-demo-suggestion="bigger titles">bigger titles</button>
               <button type="button" class="demo__chat-chip" data-demo-suggestion="go rosa">go rosa</button>
               <button type="button" class="demo__chat-chip" data-demo-suggestion="candlelit notte">candlelit notte</button>
               <button type="button" class="demo__chat-chip" data-demo-suggestion="stack the menu">stack the menu</button>
@@ -400,7 +403,7 @@
                   id="demo-input"
                   class="demo__chat-input"
                   type="text"
-                  placeholder="Try: make it warmer"
+                  placeholder="Try: go seaside"
                   data-demo-input
                   aria-describedby="demo-input-hint"
                 >
@@ -416,11 +419,39 @@
 
           <!-- Preview column -->
           <div class="demo__preview" aria-label="Live landing page preview">
-            <div class="demo__preview-chrome" aria-hidden="true">
-              <span class="demo__preview-dot"></span>
-              <span class="demo__preview-dot"></span>
-              <span class="demo__preview-dot"></span>
-              <span class="demo__preview-url">trattoria-bella.it</span>
+            <div class="demo__preview-chrome">
+              <span class="demo__preview-dot" aria-hidden="true"></span>
+              <span class="demo__preview-dot" aria-hidden="true"></span>
+              <span class="demo__preview-dot" aria-hidden="true"></span>
+              <span class="demo__preview-url" aria-hidden="true">trattoria-bella.it</span>
+              <div class="demo__preview-viewport" role="group" aria-label="Preview viewport size">
+                <button
+                  type="button"
+                  class="demo__preview-viewport-btn"
+                  data-demo-viewport="desktop"
+                  aria-pressed="true"
+                  aria-label="Desktop preview"
+                  title="Desktop preview"
+                >
+                  <svg class="demo__preview-viewport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="2" y="4" width="20" height="13" rx="1.5"></rect>
+                    <path d="M8 20h8M12 17v3"></path>
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  class="demo__preview-viewport-btn"
+                  data-demo-viewport="mobile"
+                  aria-pressed="false"
+                  aria-label="Mobile preview"
+                  title="Mobile preview"
+                >
+                  <svg class="demo__preview-viewport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="7" y="2.5" width="10" height="19" rx="2"></rect>
+                    <path d="M11 18.5h2"></path>
+                  </svg>
+                </button>
+              </div>
             </div>
 
             <div class="demo__preview-frame">

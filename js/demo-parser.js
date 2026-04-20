@@ -25,7 +25,7 @@ class DemoIntentParser {
      * Ordered list of palette names — also used by the surprise-me intent
      * and by the help/color-request fallbacks to stay in sync with CSS.
      */
-    this.paletteNames = ['tomato', 'olive', 'lemon', 'seaside', 'rosa', 'notte'];
+    this.paletteNames = ['tomato', 'olive', 'lemon', 'seaside', 'rosa', 'notte', 'espresso', 'vino', 'inchiostro', 'pistacchio'];
 
     /**
      * Value pools for the other named axes. Kept beside paletteNames so
@@ -130,7 +130,11 @@ class DemoIntentParser {
       lemon: 'Amalfi lemon',
       seaside: 'seaside blues',
       rosa: 'bougainvillea rosa',
-      notte: 'candlelit notte'
+      notte: 'candlelit notte',
+      espresso: 'espresso browns',
+      vino: 'barolo wine',
+      inchiostro: 'ink-black navy',
+      pistacchio: 'pistachio gelato'
     };
     this.fontLabels = {
       serif: 'classic serif (Georgia)',
@@ -165,6 +169,25 @@ class DemoIntentParser {
           type: 'rename',
           payload: { title: m[1].trim() },
           reply: `Orlando renames the trattoria to "${m[1].trim()}". A fresh signboard for the street.`
+        })
+      },
+
+      // --- Shitty mode (easter egg) ---
+      // A deliberately ugly composition: clashing colours, Comic Sans,
+      // tilted elements, mismatched sizes. Has to be asked for by name —
+      // it is NOT in the surprise-me pool. Exit with "reset" or
+      // "make it nice". Must come before palette-unknown so "make it
+      // ugly" doesn't fall to the generic colour fallback.
+      {
+        name: 'shitty',
+        match: /\b(?:(?:make|turn)\s+(?:it|this)\s+(?:shitty|shit|ugly|awful|horrible|gross|terrible|hideous|bad|tacky)|uglify|shit\s+mode|ugly\s+mode|ruin\s+it|trash\s+it|wreck\s+it|destroy\s+it|mess\s+it\s+up)\b/i,
+        build: () => ({
+          type: 'shitty',
+          payload: {},
+          reply:
+            'Mamma mia — fine. Orlando will commit a crime against design. ' +
+            'Don\'t say Orlando didn\'t warn you. ' +
+            'Type "reset" or "make it nice" when you\'ve seen enough.'
         })
       },
 
@@ -223,7 +246,57 @@ class DemoIntentParser {
         }
       },
 
-      // --- Palette swaps (expanded with generic colour words and descriptors) ---
+      // --- Palette swaps ---
+      // Parser is ordered top-to-bottom; first match wins. Specific
+      // multi-word English phrases ("dark blue", "light green", "wine
+      // red") MUST sit above the six generic-word palettes, or else
+      // seaside's bare `blue`, olive's `green`, and tomato's `red`
+      // shadow the compound intents. Each of the four specific palettes
+      // here is a targeted disambiguator — plain "blue" still lands on
+      // seaside below; only "dark/deep/midnight blue" gets routed to
+      // inchiostro.
+
+      {
+        name: 'palette-inchiostro',
+        match: /\b(inchiostro|ink(?:y)?|indigo|cobalt|sapphire|(?:dark|deep|midnight)\s+blue|blueberry|blackberry|onyx|noir|manuscript)\b/i,
+        build: () => ({
+          type: 'palette',
+          payload: { palette: 'inchiostro' },
+          reply: 'Orlando switches to ink — near-black navy with a warm rust accent, like an editorial printed at midnight.'
+        })
+      },
+      {
+        name: 'palette-pistacchio',
+        match: /\b(pistacchio|pistachio|mint(?:y)?|lime|chartreuse|celery|(?:spring|fresh|light)\s+green|gelato|gelateria|ice\s*cream)\b/i,
+        build: () => ({
+          type: 'palette',
+          payload: { palette: 'pistacchio' },
+          reply: 'Orlando serves the pistacchio — pale gelato green with a coral scoop on top.'
+        })
+      },
+      {
+        name: 'palette-vino',
+        match: /\b(vino|wine|burgundy|barolo|chianti|merlot|maroon|oxblood|cherry|ruby|bordeaux|claret|cellar|sommelier)\b/i,
+        build: () => ({
+          type: 'palette',
+          payload: { palette: 'vino' },
+          reply: 'Orlando reaches for the Barolo — deep burgundy walls, soft gold on the glass rims.'
+        })
+      },
+      {
+        name: 'palette-espresso',
+        match: /\b(espresso|brown(?:er)?|coffee|mocha|chocolate|cocoa|umber|sepia|chestnut|hazelnut|caramel|caff[eè]|barista|roast(?:ed)?|latte)\b/i,
+        build: () => ({
+          type: 'palette',
+          payload: { palette: 'espresso' },
+          reply: 'Orlando pulls the blinds and pours an espresso — rich coffee browns with a copper glow.'
+        })
+      },
+
+      // Generic-word palettes — each catches the bare colour word
+      // ("blue", "green", "red") for users who don't reach for a
+      // modifier. The disambiguators above intercept the compound
+      // phrases first.
       {
         name: 'palette-tomato',
         match: /\b(tomato|terracotta|rosso|red(?:der)?|crimson|scarlet|brick|warm(?:er)?|cozy|cozier|bold(?:er)?|sunset|autumnal|spicy|passionate)\b/i,
@@ -592,10 +665,47 @@ class DemoIntentParser {
         })
       },
 
+      // --- Undo ---
+      // Single-step history pop. Deliberately above `reset` so "undo"
+      // (bare or "undo that") lands here instead of getting eaten by
+      // reset's "undo everything" branch. The negative lookahead on
+      // "undo" prevents that exact collision: "undo everything" falls
+      // through to reset, "undo" / "undo that" fires the undo intent.
+      {
+        name: 'undo',
+        match: /\bundo(?!\s+everything)(?:\s+(?:that|last|it))?\b|\b(?:take\s+that\s+back|rewind|go\s+back|step\s+back)\b/i,
+        build: () => ({
+          type: 'undo',
+          payload: {},
+          reply: 'Orlando takes that back — preview restored to before the last change.'
+        })
+      },
+
+      // --- Redo ---
+      // Pairs with undo: re-apply the most recently undone change.
+      // "put that back" mirrors the undo phrasing "take that back"
+      // so the pair reads as one gesture. The redo stack in
+      // DemoPreview is cleared on any non-undo/redo mutation, so the
+      // user can't ping-pong through stale states.
+      {
+        name: 'redo',
+        match: /\b(?:redo(?:\s+(?:that|it|last))?|put\s+(?:that|it)\s+back|bring\s+(?:that|it)\s+back|do\s+(?:that|it)\s+again)\b/i,
+        build: () => ({
+          type: 'redo',
+          payload: {},
+          reply: 'Orlando puts that back — the last undone change is re-applied.'
+        })
+      },
+
       // --- Reset ---
+      // "make it nice / pretty / good / clean / better", "fix it",
+      // "clean it up", and "unshitty" are all aliases — mostly useful
+      // for exiting shitty mode, but they also work as a general reset.
+      // "undo everything" belongs here (a full reset), not on the
+      // single-step undo above.
       {
         name: 'reset',
-        match: /\b(reset|start\s+over|undo(?:\s+everything)?|original|default|restore)\b/i,
+        match: /\b(reset|start\s+over|undo\s+everything|original|default|restore|make\s+it\s+(?:nice|pretty|good|clean|better|presentable)|fix\s+it|clean\s+it\s+up|un-?shitty(?:\s+it)?)\b/i,
         build: () => ({
           type: 'reset',
           payload: {},
@@ -612,7 +722,8 @@ class DemoIntentParser {
           payload: {},
           reply:
             'Orlando plays with palettes, typography, spacing, layout, and courses. Try ' +
-            'palettes ("make it blue", "go rosa", "candlelit notte"), ' +
+            'palettes — ten of them, by colour ("make it blue", "wine red", "dark blue", "brown", "mint") ' +
+            'or by name ("go rosa", "candlelit notte", "espresso"); ' +
             'typography ("serif headline", "modern font", "bigger titles"), ' +
             'spacing ("roomier", "tighter"), ' +
             'layout ("stack the menu", "left-align the hero", "inline dishes"), ' +
@@ -678,7 +789,13 @@ class DemoIntentParser {
       // what separates the two sets of matches. ---
       {
         name: 'list-palettes',
-        match: /\b(?:what|list|show(?:\s+me)?|all|every|how\s+many)\s+[\w\s]*?\bpalettes\b|\bpalettes\s+(?:are\s+there|are\s+available|available|options?)\b/i,
+        // Accepts the explicit "palettes" keyword AND plain English
+        // "colours/colors" so users asking "what colours can I use"
+        // land on the list instead of falling through to the unknown
+        // fallback. Plural-form matching is deliberate — singular
+        // "what colour is this" still goes to query-palette (current
+        // state), plural signals "show me the options".
+        match: /\b(?:what|which|list|show(?:\s+me)?|all|every|how\s+many)\s+[\w\s]*?\b(?:palettes|colo(?:u)?rs?)\b|\b(?:palettes|colo(?:u)?rs)\s+(?:are\s+there|are\s+available|available|can\s+(?:i|we|you)\s+use|options?)\b/i,
         build: () => ({
           type: 'help',
           payload: {},
@@ -765,18 +882,59 @@ class DemoIntentParser {
       // Catches shades Orlando doesn't have (purple, orange…) and generic colour words.
       {
         name: 'palette-unknown',
-        match: /\b(colour|color|palette|tint|hue|paint|recolo(?:u)?r|theme|shade|mood|vibe|tone|purple|violet|orange|brown|beige|grey|gray|silver|white)\b/i,
+        match: /\b(colour|color|palette|tint|hue|paint|recolo(?:u)?r|theme|shade|mood|vibe|tone|purple|violet|orange|beige|grey|gray|silver|white)\b/i,
         build: () => ({
           type: 'help',
           payload: {},
           reply:
-            'Orlando has six palettes to play with: tomato, olive, lemon, seaside, rosa, and notte. ' +
+            'Orlando has ten palettes: tomato (red), rosa (pink), lemon (yellow), espresso (brown), ' +
+            'seaside (blue), olive (green), pistacchio (mint), notte (dark), vino (wine), inchiostro (ink navy). ' +
             'Which feels closest? Or say "surprise me" and Orlando will pick.'
         })
       },
+      // --- Context-aware bare size comparatives ---
+      // If the user just asked for "bigger titles" and now says "even
+      // bigger" or just "bigger", there's no axis in the text — but
+      // the last intent's axis is known to the controller and passed
+      // through as `lastAxis`. When that's title-scale or body-scale,
+      // this intent claims the comparative and applies another step.
+      // When no usable context exists, build returns null so the
+      // parser falls through to the generic size-unknown help intent
+      // below.
+      {
+        name: 'size-bare-contextual',
+        match: /\b(bigger|larger|smaller|tinier|huge|tiny|grand|louder|punchier|quieter|softer|subtler|even\s+(?:bigger|larger|smaller|tinier|louder|quieter))\b/i,
+        build: (m, _state, context) => {
+          const axis = context && context.lastAxis;
+          const isGrowing = /\b(bigger|larger|huge|grand|louder|punchier|even\s+(?:bigger|larger|louder))\b/i.test(m[0]);
+          if (axis === 'title-scale') {
+            return {
+              type: 'scale',
+              payload: { titleDelta: isGrowing ? 0.15 : -0.15 },
+              reply: isGrowing
+                ? 'Orlando pushes the headline another notch up.'
+                : 'Orlando dials the headline another notch down.'
+            };
+          }
+          if (axis === 'body-scale') {
+            return {
+              type: 'scale',
+              payload: { bodyDelta: isGrowing ? 0.1 : -0.1 },
+              reply: isGrowing
+                ? 'Orlando opens the body text a little wider.'
+                : 'Orlando tightens the body text a little more.'
+            };
+          }
+          // No usable context — bail so the next intent (size-unknown
+          // help reply) can claim the input.
+          return null;
+        }
+      },
+
       // --- Generic size fallback (broadest — must come last) ---
       // Fires on bare "bigger"/"smaller" etc. when no typography or
-      // spacing target accompanies the request.
+      // spacing target accompanies the request AND no last-axis
+      // context is available.
       {
         name: 'size-unknown',
         match: /\b(bigger|larger|huge|smaller|tinier|tiny|big|small|size|scale|grow|shrink|gigantic|dramatic|grand|louder|stronger|punchier|quieter|softer|subtle|understated)\b/i,
@@ -801,6 +959,14 @@ class DemoIntentParser {
       'Orlando couldn\'t place that. Orlando\'s comfort zone is colour, type, and layout. Try "candlelit notte", "bigger titles", or "rename it to Bella".'
     ];
     this.unknownIndex = 0;
+
+    /**
+     * Count of consecutive unknown replies. Used to upgrade the reply
+     * after the second miss from a gentle "didn't catch that" to an
+     * explicit pointer at `help` + the chip row. Resets the moment
+     * any intent actually matches.
+     */
+    this.unknownStreak = 0;
   }
 
   /**
@@ -811,7 +977,7 @@ class DemoIntentParser {
    *   producing no-ops.
    * @returns {{type: string, payload: object, reply: string}} Intent descriptor.
    */
-  parse(text, state = null) {
+  parse(text, state = null, lastAxis = null) {
     const normalized = (text || '').trim();
 
     if (!normalized) {
@@ -838,19 +1004,40 @@ class DemoIntentParser {
       }
     }
 
+    // Bundle state + lastAxis into a single context object for build
+    // functions. Contextual intents (bare comparatives that need the
+    // last-edited axis to resolve) read `lastAxis` to decide whether
+    // to claim the match or bail.
+    const context = { state, lastAxis };
+
     for (const candidate of candidates) {
       for (const intent of this.intents) {
         const match = candidate.match(intent.match);
         if (match) {
-          return intent.build(match, state);
+          // build() can return null to signal "this intent doesn't
+          // apply in the current context — try the next one". Used
+          // by the contextual bare-size intent: it only claims the
+          // match when lastAxis is title-scale or body-scale.
+          const built = intent.build(match, state, context);
+          if (built) {
+            this.unknownStreak = 0;
+            return built;
+          }
         }
       }
     }
 
+    // Nothing matched — emit an unknown reply. The second consecutive
+    // miss gets upgraded to an explicit "type help" nudge so users
+    // bouncing off the parser's vocabulary get a clear next step.
+    this.unknownStreak += 1;
+    const reply = this.unknownStreak >= 2
+      ? 'Orlando is stuck on that one — try typing "help" to see everything Orlando can do, or click one of the suggestions below.'
+      : this.nextUnknownReply();
     return {
       type: 'unknown',
       payload: {},
-      reply: this.nextUnknownReply()
+      reply
     };
   }
 
@@ -922,11 +1109,11 @@ class DemoIntentParser {
    */
   listPalettes() {
     return (
-      'Orlando has six palettes: ' +
-      'tomato (warm terracotta reds), olive (Tuscan greens), ' +
-      'lemon (Amalfi yellows), seaside (Riviera blues), ' +
-      'rosa (bougainvillea pinks), and notte (candlelit dark). ' +
-      'Try "go seaside" or "make it rosa".'
+      'Orlando has ten palettes. ' +
+      'Light & warm: tomato (red), rosa (pink), lemon (yellow), espresso (brown). ' +
+      'Cool & fresh: seaside (blue), olive (green), pistacchio (mint). ' +
+      'Dark & deep: notte (candlelit dark), vino (wine burgundy), inchiostro (ink navy). ' +
+      'Try "make it red", "go dark blue", "pistachio", or "surprise me".'
     );
   }
 

@@ -33,6 +33,14 @@ class DemoController {
     this.parser = new DemoIntentParser();
     this.preview = new DemoPreview(this.previewEl, this.titleEl);
 
+    /**
+     * Tracks the axis most recently mutated — lets the parser resolve
+     * bare comparatives like "even bigger" against the last-edited
+     * axis. Possible values: 'title-scale', 'body-scale', 'space',
+     * or null (no useful context yet).
+     */
+    this.lastAxis = null;
+
     this.init();
   }
 
@@ -44,6 +52,28 @@ class DemoController {
     this.setupFormHandler();
     this.setupSuggestionHandlers();
     this.setupToggleHandler();
+    this.setupViewportToggle();
+  }
+
+  /**
+   * Wire the desktop/mobile viewport toggle in the preview chrome.
+   * Clicking either button swaps the preview between simulated screen
+   * sizes; the controller owns the aria-pressed bookkeeping so screen
+   * readers stay in sync with the visual state.
+   */
+  setupViewportToggle() {
+    const buttons = this.root.querySelectorAll('[data-demo-viewport]');
+    if (!buttons.length) return;
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const mode = btn.getAttribute('data-demo-viewport');
+        this.preview.setViewport(mode);
+        buttons.forEach((other) => {
+          const isActive = other.getAttribute('data-demo-viewport') === mode;
+          other.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+      });
+    });
   }
 
   /**
@@ -111,32 +141,82 @@ class DemoController {
   handleUserInput(text) {
     this.addMessage('user', text);
 
-    // Hand the parser the current preview state so state-aware intents
-    // (surprise-me) can avoid no-ops on their first roll.
-    const intent = this.parser.parse(text, this.preview.getState());
-    const result = this.preview.apply(intent);
+    // Parse synchronously so we have the intent in hand immediately,
+    // but defer BOTH the preview mutation AND the reply until after
+    // the typing indicator finishes. Preview changes used to land
+    // ~650ms before Orlando's reply, which made it feel like Orlando
+    // was narrating the past. Now the preview shifts AT THE SAME
+    // MOMENT the reply appears, so the chat and the visual change
+    // read as one coherent act.
+    const intent = this.parser.parse(text, this.preview.getState(), this.lastAxis);
 
-    // If the intent was meant to mutate the design but the preview didn't
-    // actually move — the user asked for the palette/font already in
-    // view, hit a scale clamp, or renamed to the same title — speak
-    // honestly instead of claiming a change.
-    const reply = (this.isMutatingIntent(intent) && !result.changed)
-      ? this.buildNoChangeReply(intent, result.state)
-      : intent.reply;
+    // Show the typing bubble immediately — that's the "Orlando is
+    // thinking" cue the user sees while everything else waits.
+    const typingEl = this.addTypingIndicator();
 
-    // The suggestion chips are onboarding hints — collapse them once
-    // the user starts chatting, and restore them on an explicit reset.
-    if (intent.type === 'reset') {
-      this.showSuggestions();
-    } else {
-      this.hideSuggestions();
-    }
-
-    // Small async delay so Orlando's reply feels conversational
-    // rather than instantaneous.
     window.setTimeout(() => {
+      // Resolve state + reply first, but defer the VISIBLE DOM
+      // render so the chat bubble lands slightly before the preview
+      // starts moving — Orlando "says it, then does it," which
+      // reads more naturally than both happening on the same frame.
+      const result = this.preview.apply(intent, { deferRender: true });
+
+      if (result.changed) {
+        this.lastAxis = this.inferAxisFromIntent(intent);
+      }
+
+      const reply = (this.isMutatingIntent(intent) && !result.changed)
+        ? this.buildNoChangeReply(intent, result.state)
+        : intent.reply;
+
+      this.removeTypingIndicator(typingEl);
       this.addMessage('orlando', reply);
-    }, 280);
+
+      if (intent.type === 'reset') {
+        this.showSuggestions();
+      } else {
+        this.hideSuggestions();
+      }
+
+      // Kick off the preview change a short beat after the reply —
+      // long enough that the two read as cause and effect, short
+      // enough not to feel laggy.
+      if (result.changed) {
+        window.setTimeout(() => this.preview.renderWithTransition(), 220);
+      }
+    }, 650);
+  }
+
+  /**
+   * Append a "typing…" bubble to the chat messages container. Returns
+   * the element so the caller can remove it when the real reply is
+   * ready. The bubble is built from three bouncing dots rather than
+   * text so it reads as an ambient indicator rather than a message.
+   * @returns {HTMLElement} The typing bubble.
+   */
+  addTypingIndicator() {
+    if (!this.messagesEl) return null;
+    const bubble = document.createElement('div');
+    bubble.className = 'demo__chat-message demo__chat-message--orlando demo__chat-message--typing';
+    bubble.setAttribute('aria-label', 'Orlando is thinking');
+    for (let i = 0; i < 3; i += 1) {
+      const dot = document.createElement('span');
+      dot.className = 'demo__chat-typing-dot';
+      bubble.appendChild(dot);
+    }
+    this.messagesEl.appendChild(bubble);
+    this.messagesEl.scrollTop = this.messagesEl.scrollHeight;
+    return bubble;
+  }
+
+  /**
+   * Remove the typing bubble returned from addTypingIndicator. Safe to
+   * call with null (no-op) so callers don't need to guard.
+   * @param {HTMLElement|null} el - The bubble to remove.
+   */
+  removeTypingIndicator(el) {
+    if (!el || !el.parentNode) return;
+    el.parentNode.removeChild(el);
   }
 
   /**
@@ -146,7 +226,30 @@ class DemoController {
    * @param {{type: string}} intent
    */
   isMutatingIntent(intent) {
-    return ['palette', 'font', 'scale', 'space', 'rename', 'menu', 'hero', 'dish', 'course', 'randomize', 'reset'].includes(intent.type);
+    return ['palette', 'font', 'scale', 'space', 'rename', 'menu', 'hero', 'dish', 'course', 'randomize', 'reset', 'shitty', 'undo', 'redo'].includes(intent.type);
+  }
+
+  /**
+   * Map an intent to the axis it affected, for context-aware
+   * follow-ups. Palette/font/layout axes aren't tracked — their
+   * comparatives (warmer, cooler, lighter, darker) already route via
+   * the dedicated palette intents. Only size/spacing genuinely need
+   * axis memory because "bigger" without a noun is ambiguous.
+   * @param {{type: string, payload: object}} intent
+   * @returns {string|null}
+   */
+  inferAxisFromIntent(intent) {
+    if (!intent) return null;
+    if (intent.type === 'scale') {
+      const p = intent.payload || {};
+      if (typeof p.titleSet === 'number' || typeof p.titleDelta === 'number') return 'title-scale';
+      if (typeof p.bodySet === 'number' || typeof p.bodyDelta === 'number') return 'body-scale';
+      return null;
+    }
+    if (intent.type === 'space') return 'space';
+    // Every other axis already has its own comparative intents (warmer,
+    // cooler, serif, modern, stack, etc.) — no need to remember.
+    return null;
   }
 
   /**
@@ -266,6 +369,12 @@ class DemoController {
         return 'Orlando rolled the dice and somehow landed on the same composition. Try "surprise me" again.';
       case 'reset':
         return 'The trattoria is already at its original Sunday best. Try "surprise me" to stir things up.';
+      case 'shitty':
+        return 'The trattoria is already as shitty as Orlando is willing to make it. Type "make it nice" (or "reset") when you\'re ready to repent.';
+      case 'undo':
+        return 'Orlando has nothing to undo — this is where you started. Try a change first, then ask Orlando to take it back.';
+      case 'redo':
+        return 'Orlando has nothing to redo. A redo only brings back a change that was just undone.';
       default:
         return intent.reply;
     }
@@ -318,8 +427,139 @@ class DemoController {
 }
 
 /**
- * Initialize the demo controller when the DOM is ready.
+ * Typewriter-cycling placeholder for the demo's chat input.
+ * Types out a suggestion one character at a time, holds, deletes it,
+ * then cycles to the next — a clear "this is a live input" signal
+ * that breaks the "this might be a screenshot" ambiguity.
+ *
+ * Behaviours:
+ *   - Pauses whenever the user focuses the input (so a real typing
+ *     session is never stomped on by the demo animation).
+ *   - Resumes from the top of the cycle after blur.
+ *   - Respects prefers-reduced-motion: falls back to a single static
+ *     placeholder without animation.
+ */
+class DemoPlaceholderCycler {
+  /**
+   * @param {HTMLInputElement} inputEl - The chat input to animate.
+   * @param {string[]} suggestions - Ordered list of phrases to cycle.
+   * @param {object} [options]
+   * @param {string} [options.prefix] - Fixed prefix on the placeholder
+   *   (default "Try: ").
+   * @param {number} [options.typeSpeed] - Milliseconds per typed char.
+   * @param {number} [options.deleteSpeed] - Milliseconds per deleted char.
+   * @param {number} [options.holdMs] - Pause on a fully-typed phrase.
+   * @param {number} [options.restartMs] - Pause before the next phrase.
+   */
+  constructor(inputEl, suggestions, options = {}) {
+    this.inputEl = inputEl;
+    this.suggestions = suggestions;
+    this.prefix = options.prefix || 'Try: ';
+    this.typeSpeed = options.typeSpeed || 55;
+    this.deleteSpeed = options.deleteSpeed || 28;
+    this.holdMs = options.holdMs || 1800;
+    this.restartMs = options.restartMs || 450;
+
+    this.index = 0;
+    this.charIndex = 0;
+    this.mode = 'typing'; // 'typing' | 'deleting'
+    this.timer = null;
+    this.paused = false;
+
+    // Honour OS-level reduced-motion. If the user has asked for calmer
+    // interfaces, show a single static placeholder and never animate.
+    const prefersReduced =
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      this.inputEl.placeholder = this.prefix + this.suggestions[0];
+      return;
+    }
+
+    // Pause while the input is focused so the animation never fights
+    // the user's actual typing. Resume from the current position on
+    // blur.
+    this.inputEl.addEventListener('focus', () => {
+      this.paused = true;
+      if (this.timer) {
+        window.clearTimeout(this.timer);
+        this.timer = null;
+      }
+    });
+    this.inputEl.addEventListener('blur', () => {
+      this.paused = false;
+      this.scheduleTick(this.restartMs);
+    });
+
+    this.inputEl.placeholder = this.prefix;
+    this.scheduleTick(400);
+  }
+
+  /**
+   * Queue the next animation frame. Centralised so focus/blur can
+   * cancel cleanly without half-typed placeholders.
+   * @param {number} delay - Milliseconds to wait before the next tick.
+   */
+  scheduleTick(delay) {
+    if (this.paused) return;
+    if (this.timer) window.clearTimeout(this.timer);
+    this.timer = window.setTimeout(() => this.tick(), delay);
+  }
+
+  /**
+   * One frame of the typewriter loop: advance (or reverse) by one
+   * character, then either hold, switch direction, or cycle.
+   */
+  tick() {
+    if (this.paused) return;
+    const target = this.suggestions[this.index];
+
+    if (this.mode === 'typing') {
+      this.charIndex += 1;
+      this.inputEl.placeholder = this.prefix + target.slice(0, this.charIndex);
+      if (this.charIndex >= target.length) {
+        // Finished typing — hold at the end, then switch to deleting.
+        this.mode = 'deleting';
+        this.scheduleTick(this.holdMs);
+        return;
+      }
+      this.scheduleTick(this.typeSpeed);
+      return;
+    }
+
+    // Deleting.
+    this.charIndex -= 1;
+    this.inputEl.placeholder = this.prefix + target.slice(0, Math.max(0, this.charIndex));
+    if (this.charIndex <= 0) {
+      // Finished deleting — advance to the next suggestion and resume
+      // typing.
+      this.mode = 'typing';
+      this.charIndex = 0;
+      this.index = (this.index + 1) % this.suggestions.length;
+      this.scheduleTick(this.restartMs);
+      return;
+    }
+    this.scheduleTick(this.deleteSpeed);
+  }
+}
+
+/**
+ * Initialize the demo controller and placeholder cycler when the DOM
+ * is ready. The cycler is a visual-only enhancement — if the input
+ * isn't present (controller bailed), the `if` guards skip it cleanly.
  */
 document.addEventListener('DOMContentLoaded', () => {
   new DemoController();
+
+  const inputEl = document.querySelector('[data-demo-input]');
+  if (inputEl) {
+    new DemoPlaceholderCycler(inputEl, [
+      'go seaside',
+      'bigger titles',
+      'stack the menu',
+      'modern font',
+      'full menu',
+      'surprise me'
+    ]);
+  }
 });
